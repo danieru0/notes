@@ -8,7 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-*, ::after, ::before {
+*, *::after, *::before {
   box-sizing: border-box;
 }
 
