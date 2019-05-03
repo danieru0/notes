@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import Logo from './Logo';
 import Icon from '../Icon/Icon';
 import Circle from '../Circle/Circle';
+import Footer from './Footer';
 
 const LeftMenuContainer = styled.div`
     width: 17%;
     height: 100vh;
     background: #21242A;
+    position: relative;
 `
 
 const LeftMenuList = styled.ul`
@@ -100,11 +102,11 @@ const LeftMenu = () => {
                     <Icon color="#F1C200" type="star" />
                     <LeftMenuItemText>Starred</LeftMenuItemText>
                 </LeftMenuItem>
-                <LeftMenuItem id="dropdown-btn" onClick={toggleDropdownMenu}>
-                    <Icon id="dropdown-btn" color="#7F8C8D" type="tags" />
-                    <LeftMenuItemText id="dropdown-btn">Tags</LeftMenuItemText>
-                    <IconStyled id="dropdown-btn" isDropdownOpen={isDropdownShown} color="#4D4F54" type="dropdown" />
-                    <LeftMenuItemDropdown id="dropdown-btn" isDropdownOpen={isDropdownShown}>
+                <LeftMenuItem onClick={toggleDropdownMenu}>
+                    <Icon color="#7F8C8D" type="tags" />
+                    <LeftMenuItemText>Tags</LeftMenuItemText>
+                    <IconStyled isDropdownOpen={isDropdownShown} color="#4D4F54" type="dropdown" />
+                    <LeftMenuItemDropdown isDropdownOpen={isDropdownShown}>
                         <LeftMenuList>
                             <LeftMenuItemDropdownItem onClick={handleClick}>
                                 <Circle size="big" color="#BB2DE5" />
@@ -134,6 +136,7 @@ const LeftMenu = () => {
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
             </LeftMenuList>
+            <Footer />
         </LeftMenuContainer>
     );
 };
