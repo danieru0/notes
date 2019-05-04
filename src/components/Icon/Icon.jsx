@@ -13,7 +13,8 @@ const Icon = ({color, type, className}) => {
         tags: 'fa fa-tag',
         trash: 'fa fa-trash',
         dropdown: 'fa fa-angle-down',
-        add: 'fa fa-plus'
+        add: 'fa fa-plus',
+        edit: 'fa fa-edit'
     }
     return (
         <IconContainer className={className} color={color}>

@@ -11,6 +11,7 @@ const LeftMenuContainer = styled.div`
     height: 100vh;
     background: #21242A;
     position: relative;
+    box-shadow: 0px 0px 20px 1px #000000 inset;
 `
 
 const LeftMenuList = styled.ul`
