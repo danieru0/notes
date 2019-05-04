@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 
 import Icon from '../Icon/Icon';
 
@@ -98,7 +99,7 @@ const Nav = () => {
             <NavWrapper>
                 <NavTitle>Articles</NavTitle>
                 <NavNumber>2</NavNumber>
-                <NavAddButton isAddClicked={isAddClick} onClick={toggleAddClick}>
+                <NavAddButton data-tip="Add note" isAddClicked={isAddClick} onClick={toggleAddClick}>
                     <Icon color="#3599DE" type="add" />
                 </NavAddButton>
             </NavWrapper>
@@ -106,6 +107,7 @@ const Nav = () => {
                 <NavInputSearch isAddClicked={isAddClick} placeholder="Search" />
                 <NavInputAdd isAddClicked={isAddClick} placeholder="Note name"/>
             </NavWrapper>
+            <ReactTooltip type="dark" effect="solid"/>
         </NavContainer>
     );
 };

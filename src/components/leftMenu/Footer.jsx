@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 
 const FooterContainer = styled.div`
     width: 100%;
@@ -82,12 +83,13 @@ const Footer = ({menuActive, dropdownActive}) => {
                 <FooterSaveStatus>Saved</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
-                <FooterButton>
+                <FooterButton data-tip="Sign out">
                     <span className="fa fa-sign-out-alt"></span>
                 </FooterButton>
-                <FooterButton>
+                <FooterButton data-tip="Change avatar">
                     <span className="fa fa-user-circle"></span>
                 </FooterButton>
+                <ReactTooltip type="dark" effect="solid"/>
             </FooterWrapperButtons>
         </FooterContainer>
     );

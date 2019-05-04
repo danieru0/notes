@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import ReactTooltip from 'react-tooltip';
 
 import Icon from '../Icon/Icon';
 
@@ -100,12 +101,12 @@ const Editor = () => {
                 <EditorTitle>Yes you can!</EditorTitle>
                 <EditorButtonsList>
                     <EditorButtonsItem>
-                        <EditorButton onClick={toggleEdit}>
+                        <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={toggleEdit}>
                             <StyledIcon color="#545962" type="edit" />
                         </EditorButton>
                     </EditorButtonsItem>
                     <EditorButtonsItem>
-                        <EditorButton>
+                        <EditorButton data-tip="Star it!">
                             <StyledIcon color="#545962" type="star" />
                         </EditorButton>
                     </EditorButtonsItem>
@@ -113,6 +114,7 @@ const Editor = () => {
             </EditorNav>
             <EditorTextArea editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis dignissimos dolorem corrupti explicabo esse enim, deleniti eligendi sequi in fugiat possimus quam voluptatibus vero quidem dolorum amet doloremque, at laboriosam."></EditorTextArea>
             <EditorWordsLength>1000 words</EditorWordsLength>
+            <ReactTooltip type="dark" effect="solid"/>
         </EditorContainer>
     );
 };
