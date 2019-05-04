@@ -10,6 +10,17 @@ const FooterContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    background: #21242A;
+
+    @media (max-height: 580px) {
+        position: relative;
+    }
+
+    @media (max-width: 650px) {
+        width: ${({menuActive}) => ( menuActive ? '100%' : '0' )};
+        position: ${({dropdownActive}) => ( dropdownActive ? 'relative' : 'absolute' )}
+        overflow: hidden;
+    }
 `
 
 const FooterAvatar = styled.img`
@@ -17,6 +28,11 @@ const FooterAvatar = styled.img`
     height: 64px;
     border-radius: 50%;
     border: 1px solid #ffffff;
+
+    @media (max-width: 1490px) {
+        display: none;
+    }
+
 `
 
 const FooterWrapper = styled.div`
@@ -40,6 +56,12 @@ const FooterSaveStatus = styled.p`
 
 const FooterWrapperButtons = styled.div`
     margin-left: 40px;
+
+    @media (max-width: 1490px) {
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+    }
 `
 
 const FooterButton = styled.button`
@@ -51,9 +73,9 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = () => {
+const Footer = ({menuActive, dropdownActive}) => {
     return (
-        <FooterContainer>
+        <FooterContainer menuActive={menuActive} dropdownActive={dropdownActive}>
             <FooterAvatar src="https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote" />
             <FooterWrapper>
                 <FooterNick>Michael</FooterNick>

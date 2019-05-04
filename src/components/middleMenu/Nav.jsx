@@ -20,6 +20,10 @@ const NavWrapper = styled.div`
     justify-content: center;
     align-items: center;
     position: relative;
+
+    &:first-of-type {
+        margin-top: 4px;
+    }
 `
 
 const NavTitle = styled.p`
@@ -47,6 +51,11 @@ const NavAddButton = styled.button`
     outline: none;
     transform: ${({isAddClicked}) => ( isAddClicked ? 'rotate(45deg)' : 'auto' )};
     transition: transform .3s ease-in-out;
+
+    @media (max-width: 650px) {
+        right: auto;
+        left: 0;
+    }
 `
 
 const NavInput = styled.input`

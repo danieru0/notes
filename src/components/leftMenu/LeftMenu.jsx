@@ -12,6 +12,22 @@ const LeftMenuContainer = styled.div`
     background: #21242A;
     position: relative;
     box-shadow: 0px 0px 20px 1px #000000 inset;
+    overflow-y: auto;
+
+    @media (max-width: 1110px) {
+        width: 250px;
+    }
+
+    @media (max-width: 700px) {
+        width: 200px;
+    }
+
+    @media (max-width: 650px) {
+        left: 0;
+        overflow-y: auto;
+        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'unset' )};
+        width: ${({menuActive}) => ( menuActive ? '250px' : '0' )};
+    }
 `
 
 const LeftMenuList = styled.ul`
@@ -37,6 +53,11 @@ const LeftMenuList = styled.ul`
     border-top: 2px solid #333840;
     border-bottom: 2px solid #17181D;
     overflow: hidden;
+    position: relative;
+
+    @media (max-width: 1335px) {
+        padding-left: 5px;
+    }
 `
 
 const LeftMenuItemText = styled.p`
@@ -60,7 +81,7 @@ const LeftMenuItemDropdown = styled.div`
     padding: ${({isDropdownOpen}) => ( isDropdownOpen ? '15px 0' : 'auto' )};
     background: #1F2125;
     cursor: auto;
-    box-shadow: 0px 0px 20px 0px #000000 inset;
+    box-shadow: 0px 0px 20px 0px #000000 inset
 `
 
 const LeftMenuItemDropdownItem = styled.li`
@@ -72,6 +93,10 @@ const LeftMenuItemDropdownItem = styled.li`
     padding-left: 44px;
     cursor: pointer;
     height: 63px;
+
+    @media (max-width: 1285px) {
+        padding-left: 5px;
+    }
 `
 
 const LeftMenuItemDropdownNumber = styled.span`
@@ -79,21 +104,52 @@ const LeftMenuItemDropdownNumber = styled.span`
     margin-left: auto;
     position: relative;
     right: 40px;
+
+    @media (max-width: 1490px) {
+        display: none;
+    }
+`
+
+const LeftMenuButtonShow = styled.button`
+    display: none;
+
+    @media (max-width: 650px) {
+        position: absolute;
+        z-index: 1;
+        background: none;
+        border: none;
+        outline: none;
+        display: block;
+        cursor: pointer;
+        top: 22px;
+    }
+`
+
+const StyledIcon = styled(Icon)`
+    font-size: 25px;
 `
 
 const LeftMenu = () => {
     const [isDropdownShown, setDropdownState] = useState(false);
+    const [isMenuActive, setMenuState] = useState(false);
 
     const toggleDropdownMenu = () => {
         setDropdownState(!isDropdownShown);
+    }
+
+    const toggleMenu = () => {
+        setMenuState(!isMenuActive);
     }
 
     const handleClick = (e) => {
         e.stopPropagation();
     }
     return (
-        <LeftMenuContainer>
+        <LeftMenuContainer menuActive={isMenuActive}>
             <Logo />
+            <LeftMenuButtonShow onClick={toggleMenu}>
+                <StyledIcon color="#545962" type="hamburger" />
+            </LeftMenuButtonShow>
             <LeftMenuList>
                 <LeftMenuItem>
                     <Icon color="#3599DE" type="notes" />
@@ -137,7 +193,7 @@ const LeftMenu = () => {
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
             </LeftMenuList>
-            <Footer />
+            <Footer menuActive={isMenuActive} dropdownActive={isDropdownShown} />
         </LeftMenuContainer>
     );
 };

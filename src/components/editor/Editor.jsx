@@ -7,6 +7,19 @@ const EditorContainer = styled.div`
     width: 67%;
     height: 100vh;
     background: #21242A;
+
+    @media (max-width: 1110px) {
+        width: calc(100% - 250px);
+        margin-left: auto;
+    }
+
+    @media (max-width: 700px) {
+        width: calc(100% - 200px);
+    }
+
+    @media (max-width: 650px) {
+        width: 100%;
+    }
 `
 
 const EditorNav = styled.div`
@@ -52,7 +65,7 @@ const EditorTextArea = styled.textarea`
     margin: 25px 50px;
     resize: none;
     width: calc(100% - 100px);
-    height: 80%;
+    height: calc(100% - 150px);
     background: none;
     border: none;
     outline: none;
