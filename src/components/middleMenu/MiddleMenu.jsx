@@ -19,7 +19,7 @@ const MiddleMenuContainer = styled.div`
         z-index: 1;
         left: 250px;
         width: ${({menuActive}) => ( menuActive ? '250px' : '0' )};
-        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'none' )};   
+        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'none' )};
     }
 
     @media (max-width: 700px) {

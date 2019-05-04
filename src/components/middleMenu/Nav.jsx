@@ -75,13 +75,15 @@ const NavInput = styled.input`
 const NavInputSearch = styled(NavInput)`
     transform: ${({isAddClicked}) => ( isAddClicked ? 'translateY(-15px)' : 'auto' )};
     opacity: ${({isAddClicked}) => ( isAddClicked ? '0' : '1' )};
-    transition: transform .3s, opacity .3s;
+    visibility: ${({isAddClicked}) => ( isAddClicked ? 'hidden' : 'visible' )};
+    transition: transform .3s, opacity .3s, visibility .3s;
 `
 
 const NavInputAdd = styled(NavInput)`
     transform: ${({isAddClicked}) => ( isAddClicked ? 'auto' : 'translateY(-15px)' )};
+    visibility: ${({isAddClicked}) => ( isAddClicked ? 'visible' : 'hidden' )};
     opacity: ${({isAddClicked}) => ( isAddClicked ? '1' : '0' )};
-    transition: transform .3s, opacity .3s;
+    transition: transform .3s, opacity .3s, visibility .3s;
 `
 
 const Nav = () => {
