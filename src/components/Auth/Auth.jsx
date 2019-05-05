@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { signIn } from '../../actions/authActions';
+import { signIn, signUp } from '../../actions/authActions';
 import styled from 'styled-components';
 
 const AuthBackground = styled.div`
@@ -86,7 +86,7 @@ const AuthChangeTypeButton = styled.button`
     margin-top: 10px;
 `
 
-const Auth = ({signIn}) => {
+const Auth = ({signIn, signUp}) => {
     const [isRegisterActive, setLoginState] = useState(false);
     const [email, setEmailState] = useState();
     const [password, setPasswordState] = useState();
@@ -103,8 +103,9 @@ const Auth = ({signIn}) => {
         setPasswordState(e.target.value);
     }
 
-    const register = () => {
-        alert('register button');
+    const register = e => {
+        e.preventDefault();
+        signUp(email, password);
     }
 
     const login = e => {
@@ -141,4 +142,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { signIn })(Auth);
+export default connect(mapStateToProps, { signIn, signUp })(Auth);
