@@ -13,6 +13,8 @@ const MiddleMenuContainer = styled.div`
     width: 16%;
     height: 100vh;
     background: #333840;
+    box-shadow: -2px 0px 20px -5px #000000;
+    z-index: 1;
 
     @media (max-width: 1300px) {
         width: 220px;

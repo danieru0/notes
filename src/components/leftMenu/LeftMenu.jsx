@@ -14,7 +14,7 @@ const LeftMenuContainer = styled.div`
     height: 100vh;
     background: #21242A;
     position: relative;
-    box-shadow: 0px 0px 20px 1px #000000 inset;
+    //box-shadow: 0px 0px 20px 1px #000000 inset;
     overflow-y: auto;
 
     @media (max-width: 1110px) {
@@ -58,6 +58,8 @@ const LeftMenuList = styled.ul`
     overflow: hidden;
     position: relative;
 
+    background: ${({type, activeRoute}) => ( type === activeRoute && type ? '#32353B;' : 'unset' )};
+
     @media (max-width: 1335px) {
         padding-left: 5px;
     }
@@ -88,7 +90,7 @@ const LeftMenuItemDropdown = styled.div`
 `
 
 const LeftMenuItemDropdownItem = styled.li`
-    color: #ffffff;
+    color: ${({type, activeRoute}) => ( type === activeRoute && type ? '#3F4347;' : '#ffffff' )};
     font-family: 'PT Serif', serif;
     font-size: 16px;
     display: flex;
@@ -158,11 +160,11 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
                 <StyledIcon color="#545962" type="hamburger" />
             </LeftMenuButtonShow>
             <LeftMenuList>
-                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'all')}>
+                <LeftMenuItem type="all" activeRoute={activeRoute} onClick={(e) => handleMenuClick(e, 'all')}>
                     <Icon color="#3599DE" type="notes" />
                     <LeftMenuItemText>All Notes</LeftMenuItemText>
                 </LeftMenuItem>
-                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'star')}>
+                <LeftMenuItem type="star" activeRoute={activeRoute} onClick={(e) => handleMenuClick(e, 'star')}>
                     <Icon color="#F1C200" type="star" />
                     <LeftMenuItemText>Starred</LeftMenuItemText>
                 </LeftMenuItem>
@@ -177,7 +179,7 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
                                     Object.keys(profile.tags).map((item, index) => {
                                         let tagProperties = profile.tags[item];
                                         return (
-                                            <LeftMenuItemDropdownItem key={index} onClick={(e) => handleMenuClick(e, item)}>
+                                            <LeftMenuItemDropdownItem type={item} activeRoute={activeRoute} key={index} onClick={(e) => handleMenuClick(e, item)}>
                                                 <Circle size="big" color={tagProperties.color} />
                                                 <LeftMenuItemText>{item}</LeftMenuItemText>
                                                 <LeftMenuItemDropdownNumber>{tagProperties.length}</LeftMenuItemDropdownNumber>
@@ -191,7 +193,7 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
                         </LeftMenuList>
                     </LeftMenuItemDropdown>
                 </LeftMenuItem>
-                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'trash')}>
+                <LeftMenuItem type="trash" activeRoute={activeRoute} onClick={(e) => handleMenuClick(e, 'trash')}>
                     <Icon color="#E04E38" type="trash" />
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
