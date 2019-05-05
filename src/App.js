@@ -8,14 +8,12 @@ import Auth from './components/Auth/Auth';
 
 import './App.css';
 
-function App() {
-
-  const logged = true;
+function App({auth}) {
 
   return (
     <div className="App">
       {
-        logged ? (
+        auth.uid ? (
           <>
             <LeftMenu />
             <MiddleMenu />
@@ -30,9 +28,9 @@ function App() {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
-    test: state.testReducer.test
+    test: state.testReducer.test,
+    auth: state.firebase.auth
   }
 }
 
