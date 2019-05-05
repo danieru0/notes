@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { signIn } from '../../actions/authActions';
 import styled from 'styled-components';
 
 const AuthBackground = styled.div`
@@ -84,19 +86,30 @@ const AuthChangeTypeButton = styled.button`
     margin-top: 10px;
 `
 
-const Auth = () => {
+const Auth = ({signIn}) => {
     const [isRegisterActive, setLoginState] = useState(false);
+    const [email, setEmailState] = useState();
+    const [password, setPasswordState] = useState();
 
     const toggleAuth = () => {
         setLoginState(!isRegisterActive);
+    }
+
+    const handleEmailInput = e => {
+        setEmailState(e.target.value);
+    }
+
+    const handlePasswordInput = e => {
+        setPasswordState(e.target.value);
     }
 
     const register = () => {
         alert('register button');
     }
 
-    const login = () => {
-        alert('login button');
+    const login = e => {
+        e.preventDefault();
+        signIn(email, password);
     }
 
     return (
@@ -104,8 +117,8 @@ const Auth = () => {
             <AuthBackground />
             <AuthContainer>
                 <AuthForm>
-                    <AuthInput placeholder="Email" required/>
-                    <AuthInput placeholder="Password" type="password" required/>
+                    <AuthInput onChange={handleEmailInput} placeholder="Email" required/>
+                    <AuthInput onChange={handlePasswordInput} placeholder="Password" type="password" required/>
                     <AuthSubmitButton onClick={isRegisterActive ? register : login}>
                         {
                             isRegisterActive ? 'Register' : 'Login'
@@ -122,4 +135,10 @@ const Auth = () => {
     );
 };
 
-export default Auth;
+const mapStateToProps = state => {
+    return {
+        authError: state.authReducer.authError
+    }
+}
+
+export default connect(mapStateToProps, { signIn })(Auth);
