@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { signIn, signUp } from '../../actions/authActions';
 import styled from 'styled-components';
 
+import Loader from '../Loader/Loader';
+
 const AuthBackground = styled.div`
     position: fixed;
     left: 0;
@@ -39,6 +41,18 @@ const AuthForm = styled.form`
     flex-direction: column;
     box-shadow: 0px 0px 5px 0px #000;
     border-radius: 5px;
+    position: relative;
+
+    &:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: rgba(0,0,0,0.2);
+        opacity: ${({authActive}) => ( authActive ? '1' : '0' )};
+        visibility: ${({authActive}) => ( authActive ? 'visible' : 'hidden' )};
+        transition: opacity .2s, visibility .2s;
+    }
 `
 
 const AuthInput = styled.input`
@@ -86,7 +100,23 @@ const AuthChangeTypeButton = styled.button`
     margin-top: 10px;
 `
 
-const Auth = ({signIn, signUp}) => {
+const AuthErrorMessage = styled.p`
+    color: red;
+    font-family: 'PT Serif', serif;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 10px;
+`
+
+const StyledLoader= styled(Loader)`
+    opacity: ${({authActive}) => ( authActive ? '1' : '0' )};
+    visibility: ${({authActive}) => ( authActive ? 'visible' : 'hidden' )};
+    transition: opacity .2s, visibility .2s;
+`
+
+const Auth = ({authError, authRun, signIn, signUp}) => {
     const [isRegisterActive, setLoginState] = useState(false);
     const [email, setEmailState] = useState();
     const [password, setPasswordState] = useState();
@@ -104,20 +134,26 @@ const Auth = ({signIn, signUp}) => {
     }
 
     const register = e => {
-        e.preventDefault();
-        signUp(email, password);
+        if (email && password) {
+            e.preventDefault();
+            signUp(email, password);
+        }
     }
 
     const login = e => {
-        e.preventDefault();
-        signIn(email, password);
+        if (email && password) {
+            e.preventDefault();
+            signIn(email, password);
+        }
     }
 
     return (
         <>
             <AuthBackground />
             <AuthContainer>
-                <AuthForm>
+                <AuthForm authActive={authRun}>
+                    <StyledLoader authActive={authRun} />
+                    <AuthErrorMessage>{authError}</AuthErrorMessage>
                     <AuthInput onChange={handleEmailInput} placeholder="Email" required/>
                     <AuthInput onChange={handlePasswordInput} placeholder="Password" type="password" required/>
                     <AuthSubmitButton onClick={isRegisterActive ? register : login}>
@@ -138,7 +174,8 @@ const Auth = ({signIn, signUp}) => {
 
 const mapStateToProps = state => {
     return {
-        authError: state.authReducer.authError
+        authError: state.authReducer.authError,
+        authRun: state.authReducer.authRun
     }
 }
 

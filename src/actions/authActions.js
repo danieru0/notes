@@ -2,15 +2,28 @@ export const signIn = (email, password) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
 
+        dispatch({
+            type: 'AUTH_RUN',
+            status: true
+        });
+
         firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+            dispatch({
+                type: 'AUTH_RUN',
+                status: false
+            });
             dispatch({ 
-                type: 'LOGIN_SUCCESS'
-            })
+                type: 'AUTH_SUCCESS'
+            });
         }).catch(err => {
             dispatch({
-                type: 'LOGIN_FAILED',
+                type: 'AUTH_RUN',
+                status: false
+            });
+            dispatch({
+                type: 'AUTH_FAILED',
                 err
-            })
+            });
         });
     }
 }
@@ -26,12 +39,12 @@ export const signUp = (email, password) => {
                 avatar: 'https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote'
             }).then(() => {
                 dispatch({
-                    type: 'SIGNUP_SUCCESS'
+                    type: 'AUTH_SUCCESS'
                 })
             });
         }).catch(err => {
             dispatch({
-                type: 'SIGNUP_FAILURE',
+                type: 'AUTH_FAILED',
                 err
             })
         });
