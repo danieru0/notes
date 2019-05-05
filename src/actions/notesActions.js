@@ -79,10 +79,17 @@ export const getSpecificNote = id => {
         const firebase = getFirebase();
         const firestore = getFirestore();
 
+        dispatch({
+            type: 'ACTIVE_NOTE_START'
+        });
+
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 firestore.collection('users').doc(user.uid).collection('notes').doc(id).get().then(snapshot => {
-                    console.log(snapshot.data());
+                    dispatch({
+                        type: 'SET_ACTIVE_NOTE',
+                        data: snapshot.data()
+                    })
                 });
             }
         })

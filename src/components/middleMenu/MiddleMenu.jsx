@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { getAllNotes, getStarNotes, getTrashNotes, getTagNotes } from '../../actions/notesActions';
+import { getAllNotes, getStarNotes, getTrashNotes, getTagNotes, getSpecificNote } from '../../actions/notesActions';
 
 import Icon from '../Icon/Icon';
 import Nav from './Nav';
@@ -130,6 +130,10 @@ class MiddleMenu extends Component {
         this.setState({ isMenuActive: !this.state.isMenuActive });
     }
 
+    handleNoteClick = id => {
+        this.props.getSpecificNote(id);
+    }
+
     render() {
         const { notes } = this.props;
 
@@ -145,7 +149,7 @@ class MiddleMenu extends Component {
                             Object.keys(notes).map(item => {
                                 let note = notes[item];
                                 return (
-                                    <MiddleMenuItem key={item}>
+                                    <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
                                         <Note title={note.name} description={note.value} color={note.color} date="Aug. 24" />
                                     </MiddleMenuItem>
                                 )
@@ -168,4 +172,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { getAllNotes, getStarNotes, getTrashNotes, getTagNotes })(MiddleMenu);
+export default connect(mapStateToProps, { getAllNotes, getStarNotes, getTrashNotes, getTagNotes, getSpecificNote })(MiddleMenu);

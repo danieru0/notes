@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import { connect } from 'react-redux';
 
 import Icon from '../Icon/Icon';
+import Loader from '../Loader/Loader';
 
 const EditorContainer = styled.div`
     width: 67%;
     height: 100vh;
     background: #21242A;
+    position: relative;
 
     @media (max-width: 1110px) {
         width: calc(100% - 250px);
@@ -88,7 +91,28 @@ const EditorWordsLength = styled.p`
     cursor: default;
 `
 
-const Editor = () => {
+const EditorNoNote = styled.p`
+    width: 100%;
+    height: 100%;
+    color: #545962;
+    font-size: 18px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'PT Serif', serif;
+`
+
+const StyledLoader = styled(Loader)`
+    position: absolute
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+`
+
+const Editor = ({activeNote, noteGetting}) => {
     const [isEditorOff, setEditorState] = useState(true);
 
     const toggleEdit = () => {
@@ -97,26 +121,47 @@ const Editor = () => {
 
     return (
         <EditorContainer>
-            <EditorNav>
-                <EditorTitle>Yes you can!</EditorTitle>
-                <EditorButtonsList>
-                    <EditorButtonsItem>
-                        <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={toggleEdit}>
-                            <StyledIcon color="#545962" type="edit" />
-                        </EditorButton>
-                    </EditorButtonsItem>
-                    <EditorButtonsItem>
-                        <EditorButton data-tip="Star it!">
-                            <StyledIcon color="#545962" type="star" />
-                        </EditorButton>
-                    </EditorButtonsItem>
-                </EditorButtonsList>
-            </EditorNav>
-            <EditorTextArea editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis dignissimos dolorem corrupti explicabo esse enim, deleniti eligendi sequi in fugiat possimus quam voluptatibus vero quidem dolorum amet doloremque, at laboriosam."></EditorTextArea>
-            <EditorWordsLength>1000 words</EditorWordsLength>
-            <ReactTooltip type="dark" effect="solid"/>
+            {
+                activeNote ? (
+                    <>
+                        <EditorNav>
+                        <EditorTitle>{activeNote.name}</EditorTitle>
+                        <EditorButtonsList>
+                            <EditorButtonsItem>
+                                <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={toggleEdit}>
+                                    <StyledIcon color="#545962" type="edit" />
+                                </EditorButton>
+                            </EditorButtonsItem>
+                            <EditorButtonsItem>
+                                <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'}>
+                                    <StyledIcon color={activeNote.star ? '#F1C200' : "#545962"} type="star" />
+                                </EditorButton>
+                            </EditorButtonsItem>
+                        </EditorButtonsList>
+                        </EditorNav>
+                        <EditorTextArea editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={activeNote.value}></EditorTextArea>
+                        <EditorWordsLength>{`${activeNote.value.length} words`}</EditorWordsLength>
+                        <ReactTooltip type="dark" effect="solid"/>
+                    </>
+
+                ) : (
+                    noteGetting ? (
+                        <StyledLoader />
+                    ) : (
+                        <EditorNoNote>Nothing here ;(</EditorNoNote>
+                    )
+                )
+            }
+
         </EditorContainer>
     );
 };
 
-export default Editor;
+const mapStateToProps = state => {
+    return {
+        activeNote: state.notesReducer.activeNote,
+        noteGetting: state.notesReducer.noteGetting
+    }
+}
+
+export default connect(mapStateToProps, null)(Editor);

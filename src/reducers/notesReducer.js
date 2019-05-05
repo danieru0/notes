@@ -1,5 +1,7 @@
 const initState = {
-    notes: null
+    notes: null,
+    activeNote: null,
+    noteGetting: false
 }
 
 const notesReducer = (state = initState, action) => {
@@ -13,6 +15,18 @@ const notesReducer = (state = initState, action) => {
             return {
                 ...state,
                 notes: null
+            }
+        case 'ACTIVE_NOTE_START':
+            return {
+                ...state,
+                activeNote: null,
+                noteGetting: true
+            }
+        case 'SET_ACTIVE_NOTE':
+            return {
+                ...state,
+                activeNote: action.data,
+                noteGetting: false
             }
         default: return state;
     }
