@@ -24,7 +24,7 @@ export const getStarNotes = () => {
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                firestore.collection('users').doc(user.uid).collection('notes').where("star", "==", true).get().then(snapshot => {
+                firestore.collection('users').doc(user.uid).collection('notes').where("star", "==", true).where("trash", "==", false).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
                     dispatch({
                         type: 'UPDATE_NOTES',
