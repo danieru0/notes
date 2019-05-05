@@ -37,6 +37,7 @@ const NoteDescription = styled.p`
     color: #9FA3A7;
     font-size: 13px;
     margin-top: 15px;
+    height: 72px;
 `
 
 const NoteDate = styled.p`
@@ -48,10 +49,15 @@ const NoteDate = styled.p`
     top: 5px;
 `
 
-const Note = ({title, description, date}) => {
+const Note = ({title, description, date, color}) => {
+
+    if (description.length > 140) {
+        description = description.substring(0, 140)+'...';
+    }
+
     return (
         <NoteContainer>
-            <StyledCircle color="#FC3150" size="small" />
+            <StyledCircle color={color} size="small" />
             <NoteWrapper>
                 <NoteTitle>{title}</NoteTitle>
                 <NoteDescription>{description}</NoteDescription>

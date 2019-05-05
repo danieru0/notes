@@ -7,7 +7,10 @@ export const getAllNotes = () => {
             if (user) {
                 firestore.collection('users').doc(user.uid).collection('notes').get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
-                    console.log(notes);
+                    dispatch({
+                        type: 'UPDATE_NOTES',
+                        notes
+                    })
                 })
             }
         });
@@ -23,7 +26,10 @@ export const getStarNotes = () => {
             if (user) {
                 firestore.collection('users').doc(user.uid).collection('notes').where("star", "==", true).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
-                    console.log(notes);
+                    dispatch({
+                        type: 'UPDATE_NOTES',
+                        notes
+                    })
                 });
             }
         })
@@ -39,7 +45,10 @@ export const getTrashNotes = () => {
             if (user) {
                 firestore.collection('users').doc(user.uid).collection('notes').where("trash", "==", true).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
-                    console.log(notes);
+                    dispatch({
+                        type: 'UPDATE_NOTES',
+                        notes
+                    })
                 });
             }
         })
@@ -55,7 +64,10 @@ export const getTagNotes = tag => {
             if (user) {
                 firestore.collection('users').doc(user.uid).collection('notes').where("tag", "==", tag).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
-                    console.log(notes);
+                    dispatch({
+                        type: 'UPDATE_NOTES',
+                        notes
+                    })
                 });
             }
         })

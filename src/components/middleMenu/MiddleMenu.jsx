@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { getAllNotes, getStarNotes, getTrashNotes, getTagNotes } from '../../actions/notesActions';
 
 import Icon from '../Icon/Icon';
 import Nav from './Nav';
@@ -37,6 +40,9 @@ const MiddleMenuList = styled.ul`
     padding: 0;
     margin: 0;
     width: 100%;
+    height: calc(100% - 130px);
+    overflow-y: auto;
+    padding-right: 1px;
 `
 
 const MiddleMenuItem = styled.li`
@@ -68,28 +74,73 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const MiddleMenu = () => {
-    const [isMenuActive, setMenuState] = useState(false);
-
-    const toggleMenu = () => {
-        setMenuState(!isMenuActive);
+class MiddleMenu extends Component {
+    constructor() {
+        super();
+        this.state = {
+            isMenuActive: false
+        }
     }
-    return (
-        <MiddleMenuContainer menuActive={isMenuActive}>
-            <MiddleMenuShowButton onClick={toggleMenu}>
-                <StyledIcon color="#545962" type="hamburger" />
-            </MiddleMenuShowButton>
-            <Nav />
-            <MiddleMenuList>
-                <MiddleMenuItem>
-                    <Note title="Article No. 2" description="Vestibulum rutrum quam vitae fringilla tincidunt. Suspendisse nec tortor urna. Ut laoreet sodales nisi, quis iaculis nulla iacullis vitae..." date="Aug. 24" />
-                </MiddleMenuItem>
-                <MiddleMenuItem>
-                    <Note title="Article No. 5" description="Vestibulum rutrum quam vitae fringilla tincidunt. Suspendisse nec tortor urna. Ut laoreet sodales nisi, quis iaculis nulla iacullis vitae..." date="Aug. 27" />
-                </MiddleMenuItem>
-            </MiddleMenuList>
-        </MiddleMenuContainer>
-    );
+
+    componentDidMount() {
+        this.props.getAllNotes();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.activeRoute !== this.props.activeRoute) {
+            switch(this.props.activeRoute) {
+                case 'all':
+                    this.props.getAllNotes();
+                    break;
+                case 'star':
+                    this.props.getStarNotes();
+                    break;
+                case 'trash':
+                    this.props.getTrashNotes();
+                    break;
+                default: this.props.getTagNotes(this.props.activeRoute);
+            }
+        }
+    }
+
+    toggleMenu = () => {
+        this.setState({ isMenuActive: !this.state.isMenuActive });
+    }
+
+    render() {
+        const { notes } = this.props;
+        return (
+            <MiddleMenuContainer menuActive={this.state.isMenuActive}>
+                <MiddleMenuShowButton onClick={this.toggleMenu}>
+                    <StyledIcon color="#545962" type="hamburger" />
+                </MiddleMenuShowButton>
+                <Nav />
+                <MiddleMenuList>
+                    {
+                        notes ? (
+                            Object.keys(notes).map(item => {
+                                let note = notes[item];
+                                return (
+                                    <MiddleMenuItem>
+                                        <Note key={item} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                    </MiddleMenuItem>
+                                )
+                            })
+                        ) : (
+                            ''
+                        )
+                    }
+                </MiddleMenuList>
+            </MiddleMenuContainer>
+        )
+    }
 };
 
-export default MiddleMenu;
+const mapStateToProps = state => {
+    return {
+        activeRoute: state.routesReducer.activeRoute,
+        notes: state.notesReducer.notes
+    }
+}
+
+export default connect(mapStateToProps, { getAllNotes, getStarNotes, getTrashNotes, getTagNotes })(MiddleMenu);

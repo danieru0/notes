@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
+import { updateRoute } from '../../actions/routesActions';
+
 import Logo from './Logo';
 import Icon from '../Icon/Icon';
 import Circle from '../Circle/Circle';
@@ -130,7 +132,7 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const LeftMenu = ({profile}) => {
+const LeftMenu = ({profile, updateRoute}) => {
     const [isDropdownShown, setDropdownState] = useState(false);
     const [isMenuActive, setMenuState] = useState(false);
 
@@ -142,8 +144,9 @@ const LeftMenu = ({profile}) => {
         setMenuState(!isMenuActive);
     }
 
-    const handleClick = (e) => {
+    const handleMenuClick = (e, route) => {
         e.stopPropagation();
+        updateRoute(route);
     }
 
     return (
@@ -153,11 +156,11 @@ const LeftMenu = ({profile}) => {
                 <StyledIcon color="#545962" type="hamburger" />
             </LeftMenuButtonShow>
             <LeftMenuList>
-                <LeftMenuItem>
+                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'all')}>
                     <Icon color="#3599DE" type="notes" />
                     <LeftMenuItemText>All Notes</LeftMenuItemText>
                 </LeftMenuItem>
-                <LeftMenuItem>
+                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'star')}>
                     <Icon color="#F1C200" type="star" />
                     <LeftMenuItemText>Starred</LeftMenuItemText>
                 </LeftMenuItem>
@@ -169,10 +172,10 @@ const LeftMenu = ({profile}) => {
                         <LeftMenuList>
                             {
                                 profile.isLoaded ? (
-                                    Object.keys(profile.tags).map(item => {
+                                    Object.keys(profile.tags).map((item, index) => {
                                         let tagProperties = profile.tags[item];
                                         return (
-                                            <LeftMenuItemDropdownItem onClick={handleClick}>
+                                            <LeftMenuItemDropdownItem key={index} onClick={(e) => handleMenuClick(e, item)}>
                                                 <Circle size="big" color={tagProperties.color} />
                                                 <LeftMenuItemText>{item}</LeftMenuItemText>
                                                 <LeftMenuItemDropdownNumber>{tagProperties.length}</LeftMenuItemDropdownNumber>
@@ -186,7 +189,7 @@ const LeftMenu = ({profile}) => {
                         </LeftMenuList>
                     </LeftMenuItemDropdown>
                 </LeftMenuItem>
-                <LeftMenuItem>
+                <LeftMenuItem onClick={(e) => handleMenuClick(e, 'trash')}>
                     <Icon color="#E04E38" type="trash" />
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
@@ -202,4 +205,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(LeftMenu);
+export default connect(mapStateToProps, { updateRoute })(LeftMenu);
