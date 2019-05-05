@@ -9,6 +9,11 @@ const notesReducer = (state = initState, action) => {
                 ...state,
                 notes: action.notes
             }
+        case 'CLEAR_NOTES':
+            return {
+                ...state,
+                notes: null
+            }
         default: return state;
     }
 }

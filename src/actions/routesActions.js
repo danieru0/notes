@@ -4,5 +4,8 @@ export const updateRoute = route => {
             type: 'UPDATE_ROUTE',
             route
         })
+        dispatch({
+            type: 'CLEAR_NOTES'
+        })
     }
 }

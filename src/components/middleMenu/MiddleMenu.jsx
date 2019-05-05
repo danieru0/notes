@@ -7,6 +7,7 @@ import { getAllNotes, getStarNotes, getTrashNotes, getTagNotes } from '../../act
 import Icon from '../Icon/Icon';
 import Nav from './Nav';
 import Note from './Note';
+import Loader from '../Loader/Loader';
 
 const MiddleMenuContainer = styled.div`
     width: 16%;
@@ -43,6 +44,18 @@ const MiddleMenuList = styled.ul`
     height: calc(100% - 130px);
     overflow-y: auto;
     padding-right: 1px;
+    position: relative;
+
+
+    &:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        top: 0;
+        display: ${({notes}) => ( notes ? 'none' : 'block' )};
+    }
 `
 
 const MiddleMenuItem = styled.li`
@@ -72,6 +85,14 @@ const MiddleMenuShowButton = styled.button`
 
 const StyledIcon = styled(Icon)`
     font-size: 25px;
+`
+
+const StyledLoader = styled(Loader)`
+    position: absolute;
+    left: 0;
+    top: 20px;
+    right: 0;
+    margin: auto;
 `
 
 class MiddleMenu extends Component {
@@ -109,25 +130,26 @@ class MiddleMenu extends Component {
 
     render() {
         const { notes } = this.props;
+
         return (
             <MiddleMenuContainer menuActive={this.state.isMenuActive}>
                 <MiddleMenuShowButton onClick={this.toggleMenu}>
                     <StyledIcon color="#545962" type="hamburger" />
                 </MiddleMenuShowButton>
                 <Nav />
-                <MiddleMenuList>
+                <MiddleMenuList notes={notes}>
                     {
                         notes ? (
                             Object.keys(notes).map(item => {
                                 let note = notes[item];
                                 return (
-                                    <MiddleMenuItem>
-                                        <Note key={item} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                    <MiddleMenuItem key={item}>
+                                        <Note title={note.name} description={note.value} color={note.color} date="Aug. 24" />
                                     </MiddleMenuItem>
                                 )
                             })
                         ) : (
-                            ''
+                            <StyledLoader />
                         )
                     }
                 </MiddleMenuList>
@@ -139,6 +161,7 @@ class MiddleMenu extends Component {
 const mapStateToProps = state => {
     return {
         activeRoute: state.routesReducer.activeRoute,
+        routeChanging: state.routesReducer.routeChanging,
         notes: state.notesReducer.notes
     }
 }

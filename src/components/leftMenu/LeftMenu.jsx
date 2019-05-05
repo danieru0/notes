@@ -132,7 +132,7 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const LeftMenu = ({profile, updateRoute}) => {
+const LeftMenu = ({profile, activeRoute, updateRoute}) => {
     const [isDropdownShown, setDropdownState] = useState(false);
     const [isMenuActive, setMenuState] = useState(false);
 
@@ -146,7 +146,9 @@ const LeftMenu = ({profile, updateRoute}) => {
 
     const handleMenuClick = (e, route) => {
         e.stopPropagation();
-        updateRoute(route);
+        if (activeRoute !== route) {
+            updateRoute(route);
+        }
     }
 
     return (
@@ -201,7 +203,8 @@ const LeftMenu = ({profile, updateRoute}) => {
 
 const mapStateToProps = state => {
     return {
-        profile: state.firebase.profile
+        profile: state.firebase.profile,
+        activeRoute: state.routesReducer.activeRoute
     }
 }
 

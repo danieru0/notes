@@ -10,7 +10,7 @@ export const getAllNotes = () => {
                     dispatch({
                         type: 'UPDATE_NOTES',
                         notes
-                    })
+                    });
                 })
             }
         });
@@ -29,7 +29,7 @@ export const getStarNotes = () => {
                     dispatch({
                         type: 'UPDATE_NOTES',
                         notes
-                    })
+                    });
                 });
             }
         })
@@ -48,7 +48,7 @@ export const getTrashNotes = () => {
                     dispatch({
                         type: 'UPDATE_NOTES',
                         notes
-                    })
+                    });
                 });
             }
         })
@@ -67,7 +67,7 @@ export const getTagNotes = tag => {
                     dispatch({
                         type: 'UPDATE_NOTES',
                         notes
-                    })
+                    });
                 });
             }
         })

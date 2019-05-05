@@ -1,5 +1,6 @@
 const initState = {
-    activeRoute: 'all'
+    activeRoute: 'all',
+    routeChanging: false
 }
 
 const routesReducer = (state = initState, action) => {
@@ -7,7 +8,8 @@ const routesReducer = (state = initState, action) => {
         case 'UPDATE_ROUTE':
             return {
                 ...state,
-                activeRoute: action.route
+                activeRoute: action.route,
+                routeChanging: true
             }
         default: return state;
     }

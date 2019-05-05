@@ -44,9 +44,11 @@ const FooterWrapper = styled.div`
 
 const FooterNick = styled.p`
     color: #ffffff;
-    font-size: 24px;
+    font-size: 16px;
     letter-spacing: 1px;
     margin: 0;
+    max-width: 68px;
+    height: 22px;
 `
 
 const FooterSaveStatus = styled.p`
@@ -77,9 +79,9 @@ const FooterButton = styled.button`
 const Footer = ({avatar, email, menuActive, dropdownActive}) => {
     return (
         <FooterContainer menuActive={menuActive} dropdownActive={dropdownActive}>
-            <FooterAvatar src={avatar} />
+            <FooterAvatar src={avatar ? avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} />
             <FooterWrapper>
-                <FooterNick>{email ? email.split('@')[0] : ''}</FooterNick>
+                <FooterNick >{email ? email.split('@')[0] : ''}</FooterNick>
                 <FooterSaveStatus>Saved</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
