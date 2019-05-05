@@ -74,12 +74,12 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = ({menuActive, dropdownActive}) => {
+const Footer = ({avatar, email, menuActive, dropdownActive}) => {
     return (
         <FooterContainer menuActive={menuActive} dropdownActive={dropdownActive}>
-            <FooterAvatar src="https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote" />
+            <FooterAvatar src={avatar} />
             <FooterWrapper>
-                <FooterNick>Michael</FooterNick>
+                <FooterNick>{email ? email.split('@')[0] : ''}</FooterNick>
                 <FooterSaveStatus>Saved</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>

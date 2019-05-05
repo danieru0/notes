@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import Logo from './Logo';
 import Icon from '../Icon/Icon';
@@ -129,7 +130,7 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const LeftMenu = () => {
+const LeftMenu = ({profile}) => {
     const [isDropdownShown, setDropdownState] = useState(false);
     const [isMenuActive, setMenuState] = useState(false);
 
@@ -144,6 +145,7 @@ const LeftMenu = () => {
     const handleClick = (e) => {
         e.stopPropagation();
     }
+
     return (
         <LeftMenuContainer menuActive={isMenuActive}>
             <Logo />
@@ -165,26 +167,22 @@ const LeftMenu = () => {
                     <IconStyled isDropdownOpen={isDropdownShown} color="#4D4F54" type="dropdown" />
                     <LeftMenuItemDropdown isDropdownOpen={isDropdownShown}>
                         <LeftMenuList>
-                            <LeftMenuItemDropdownItem onClick={handleClick}>
-                                <Circle size="big" color="#BB2DE5" />
-                                <LeftMenuItemText>To Do's</LeftMenuItemText>
-                                <LeftMenuItemDropdownNumber>2</LeftMenuItemDropdownNumber>
-                            </LeftMenuItemDropdownItem>
-                            <LeftMenuItemDropdownItem onClick={handleClick}>
-                                <Circle size="big" color="#BAE77E" />
-                                <LeftMenuItemText>Vacation Plans</LeftMenuItemText>
-                                <LeftMenuItemDropdownNumber>4</LeftMenuItemDropdownNumber>
-                            </LeftMenuItemDropdownItem>
-                            <LeftMenuItemDropdownItem onClick={handleClick}>
-                                <Circle size="big" color="#FE9600" />
-                                <LeftMenuItemText>Project Plans</LeftMenuItemText>
-                                <LeftMenuItemDropdownNumber>3</LeftMenuItemDropdownNumber>
-                            </LeftMenuItemDropdownItem>
-                            <LeftMenuItemDropdownItem onClick={handleClick}>
-                                <Circle size="big" color="#FC3150" />
-                                <LeftMenuItemText>Articles</LeftMenuItemText>
-                                <LeftMenuItemDropdownNumber>2</LeftMenuItemDropdownNumber>
-                            </LeftMenuItemDropdownItem>
+                            {
+                                profile.isLoaded ? (
+                                    Object.keys(profile.tags).map(item => {
+                                        let tagProperties = profile.tags[item];
+                                        return (
+                                            <LeftMenuItemDropdownItem onClick={handleClick}>
+                                                <Circle size="big" color={tagProperties.color} />
+                                                <LeftMenuItemText>{item}</LeftMenuItemText>
+                                                <LeftMenuItemDropdownNumber>{tagProperties.length}</LeftMenuItemDropdownNumber>
+                                            </LeftMenuItemDropdownItem>
+                                        )
+                                    })
+                                ) : (
+                                    ''
+                                )
+                            }
                         </LeftMenuList>
                     </LeftMenuItemDropdown>
                 </LeftMenuItem>
@@ -193,9 +191,15 @@ const LeftMenu = () => {
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
             </LeftMenuList>
-            <Footer menuActive={isMenuActive} dropdownActive={isDropdownShown} />
+            <Footer avatar={profile.avatar} email={profile.email} menuActive={isMenuActive} dropdownActive={isDropdownShown} />
         </LeftMenuContainer>
     );
 };
 
-export default LeftMenu;
+const mapStateToProps = state => {
+    return {
+        profile: state.firebase.profile
+    }
+}
+
+export default connect(mapStateToProps, null)(LeftMenu);
