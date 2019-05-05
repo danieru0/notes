@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import LeftMenu from './components/leftMenu/LeftMenu';
 import MiddleMenu from './components/middleMenu/MiddleMenu';
@@ -28,4 +29,11 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    test: state.testReducer.test
+  }
+}
+
+export default connect(mapStateToProps, null)(App);
