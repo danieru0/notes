@@ -40,6 +40,7 @@ const NoteDescription = styled.p`
     font-size: 13px;
     margin-top: 15px;
     height: 72px;
+    word-break: break-all;
 `
 
 const NoteDate = styled.p`

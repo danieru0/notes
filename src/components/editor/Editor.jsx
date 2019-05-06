@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 
+import { updateNote } from '../../actions/notesActions';
+
 import Icon from '../Icon/Icon';
 import Loader from '../Loader/Loader';
 
@@ -121,6 +123,16 @@ class Editor extends Component {
         }
     }
 
+    componentDidMount() {
+        if (this.editor) {
+            this.editor.addEventListener('keydown', this.keyShortcut)
+        }
+    }
+
+    componentWillUnmount() {
+        this.editor.removeEventListener(this.keyShortcut);
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.activeNote) {
             if (prevProps.activeNote !== this.props.activeNote) {
@@ -137,11 +149,20 @@ class Editor extends Component {
         this.setState({ editorValue: e.target.value });
     }
 
+    keyShortcut = e => {
+        if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
+            if (!this.state.isEditorOff) {
+                e.preventDefault();
+                this.props.updateNote(this.props.activeNote.id, 'text', this.state.editorValue, this.props.activeRoute);
+            }
+        }
+    }
+
     render() {
         const { activeNote, noteGetting } = this.props;
         const { isEditorOff, editorValue } = this.state;
         return (
-            <EditorContainer>
+            <EditorContainer ref={r => this.editor = r}>
                 {
                     activeNote ? (
                         <>
@@ -158,10 +179,15 @@ class Editor extends Component {
                                         <StyledIcon color={activeNote.star ? '#F1C200' : "#545962"} type="star" />
                                     </EditorButton>
                                 </EditorButtonsItem>
+                                <EditorButtonsItem>
+                                    <EditorButton data-tip="Save (CTRL + S)">
+                                        <StyledIcon color="#545962" type="save" />
+                                    </EditorButton>
+                                </EditorButtonsItem>
                             </EditorButtonsList>
                             </EditorNav>
                             <EditorTextArea onChange={this.handleEditorText} editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={editorValue}></EditorTextArea>
-                            <EditorWordsLength>{`${activeNote.value.length} words`}</EditorWordsLength>
+                            <EditorWordsLength>{`${editorValue.length} words`}</EditorWordsLength>
                             <ReactTooltip type="dark" effect="solid"/>
                         </>
                     ) : (
@@ -180,8 +206,9 @@ class Editor extends Component {
 const mapStateToProps = state => {
     return {
         activeNote: state.notesReducer.activeNote,
-        noteGetting: state.notesReducer.noteGetting
+        noteGetting: state.notesReducer.noteGetting,
+        activeRoute: state.routesReducer.activeRoute,
     }
 }
 
-export default connect(mapStateToProps, null)(Editor);
+export default connect(mapStateToProps, { updateNote })(Editor);

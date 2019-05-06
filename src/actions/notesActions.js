@@ -120,7 +120,7 @@ export const createNewNote = (tag, color, name) => {
     }
 }
 
-export const updateNote = (id, type, newValue) => {
+export const updateNote = (id, type, newValue, activeRoute) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
@@ -147,7 +147,18 @@ export const updateNote = (id, type, newValue) => {
                             default: break;
                         }
                     }).then(() => {
-                        console.log('SUCCESS! :D');
+                        switch(activeRoute) {
+                            case 'all':
+                                dispatch(getAllNotes(activeRoute));
+                                break;
+                            case 'star':
+                                dispatch(getStarNotes(activeRoute));
+                                break;
+                            case 'trash':
+                                dispatch(getTrashNotes(activeRoute));
+                                break;
+                            default: dispatch(getTagNotes(activeRoute));
+                        }
                     }).catch(err => {
                         console.log(err);
                     })
