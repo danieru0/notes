@@ -144,14 +144,14 @@ class MiddleMenu extends Component {
     }
 
     render() {
-        const { notes } = this.props;
+        const { notes, activeRoute, profile } = this.props;
 
         return (
             <MiddleMenuContainer menuActive={this.state.isMenuActive}>
                 <MiddleMenuShowButton onClick={this.toggleMenu}>
                     <StyledIcon color="#545962" type="hamburger" />
                 </MiddleMenuShowButton>
-                <Nav />
+                <Nav tag={profile.isLoaded ? profile.tags[activeRoute] : null} activeRoute={activeRoute} number={notes ? notes.length : ''}/>
                 <MiddleMenuList notes={notes}>
                     {
                         notes ? (
@@ -178,7 +178,8 @@ const mapStateToProps = state => {
         activeRoute: state.routesReducer.activeRoute,
         activeNote: state.notesReducer.activeNote,
         routeChanging: state.routesReducer.routeChanging,
-        notes: state.notesReducer.notes
+        notes: state.notesReducer.notes,
+        profile: state.firebase.profile,
     }
 }
 

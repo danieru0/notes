@@ -135,10 +135,15 @@ export const clearActiveNote = () => {
 
 //----------------------------------------------------
 
-export const createNewNote = (tag, color, name) => {
+export const createNewNote = (tag, color, name, activeRoute) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
+
+        dispatch({
+            type: 'SET_PROCESS',
+            data: true
+        })
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -151,6 +156,25 @@ export const createNewNote = (tag, color, name) => {
                     value: '',
                     id: newNote.id,
                     trash: false
+                }).then(() => {
+                    switch(activeRoute) {
+                        case 'all':
+                            dispatch(getAllNotes());
+                            break;
+                        case 'star':
+                            dispatch(getStarNotes());
+                            break;
+                        case 'trash':
+                            dispatch(getTrashNotes());
+                            break;
+                        default: dispatch(getTagNotes(activeRoute));
+                    }
+                    dispatch({
+                        type: 'SET_PROCESS',
+                        data: false
+                    })
+                }).catch(err => {
+                    console.log(err);
                 })
             }
         });

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import { connect } from 'react-redux';
+
+import { createNewNote } from '../../actions/notesActions';  
 
 import Icon from '../Icon/Icon';
 
@@ -40,6 +43,7 @@ const NavNumber = styled.p`
     font-size: 20px;
     margin-left: 10px;
     cursor: default;
+    min-width: 10px;
 `
 
 const NavAddButton = styled.button`
@@ -87,29 +91,47 @@ const NavInputAdd = styled(NavInput)`
     transition: transform .3s, opacity .3s, visibility .3s;
 `
 
-const Nav = () => {
+const Nav = ({activeRoute, number, tag, createNewNote}) => {
     const [isAddClick, setAddClickState] = useState(false);
+    const [newNoteName, setNewNote] = useState(null);
 
     const toggleAddClick = () => {
         setAddClickState(!isAddClick);
     }
 
+    const handleNewNote = e => {
+        setNewNote(e.target.value);
+    }
+
+    const createNote = e => {
+        if (e.key === 'Enter') {
+            if (newNoteName) {
+                e.target.value = '';
+                if (tag) {
+                    createNewNote(activeRoute, tag.color, newNoteName, activeRoute);   
+                } else {
+                    createNewNote('freedom', '#000000', newNoteName, activeRoute);
+                }
+            }
+        }
+    }
+
     return (
         <NavContainer>
             <NavWrapper>
-                <NavTitle>Articles</NavTitle>
-                <NavNumber>2</NavNumber>
+                <NavTitle>{activeRoute}</NavTitle>
+                <NavNumber>{number}</NavNumber>
                 <NavAddButton data-tip="Add note" isAddClicked={isAddClick} onClick={toggleAddClick}>
                     <Icon color="#3599DE" type="add" />
                 </NavAddButton>
             </NavWrapper>
             <NavWrapper>
                 <NavInputSearch isAddClicked={isAddClick} placeholder="Search" />
-                <NavInputAdd isAddClicked={isAddClick} placeholder="Note name"/>
+                <NavInputAdd onKeyPress={createNote} onChange={handleNewNote} isAddClicked={isAddClick} placeholder="Note name"/>
             </NavWrapper>
             <ReactTooltip type="dark" effect="solid"/>
         </NavContainer>
     );
 };
 
-export default Nav;
+export default connect(null, { createNewNote })(Nav);
