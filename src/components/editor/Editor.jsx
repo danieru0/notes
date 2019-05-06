@@ -119,7 +119,8 @@ class Editor extends Component {
         super();
         this.state ={
             isEditorOff: true,
-            editorValue: ''
+            editorValue: '',
+            editorStar: null
         }
     }
 
@@ -136,13 +137,23 @@ class Editor extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.activeNote) {
             if (prevProps.activeNote !== this.props.activeNote) {
-                this.setState({ editorValue: this.props.activeNote.value });
+                this.setState({ editorValue: this.props.activeNote.value, editorStar: this.props.activeNote.star });
             }
         }
     }
 
     toggleEdit = () => {
         this.setState({ isEditorOff: !this.state.isEditorOff });
+    }
+
+    toggleStar = () => {
+        if (!this.props.process) {
+            this.setState({
+                editorStar: !this.state.editorStar
+            }, () => {
+                this.props.updateNote(this.props.activeNote.id, 'star', this.state.editorStar, this.props.activeRoute);
+            })
+        }
     }
 
     handleEditorText = e => {
@@ -160,7 +171,8 @@ class Editor extends Component {
 
     render() {
         const { activeNote, noteGetting } = this.props;
-        const { isEditorOff, editorValue } = this.state;
+        const { isEditorOff, editorValue, editorStar } = this.state;
+
         return (
             <EditorContainer ref={r => this.editor = r}>
                 {
@@ -175,8 +187,8 @@ class Editor extends Component {
                                     </EditorButton>
                                 </EditorButtonsItem>
                                 <EditorButtonsItem>
-                                    <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'}>
-                                        <StyledIcon color={activeNote.star ? '#F1C200' : "#545962"} type="star" />
+                                    <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'} onClick={this.toggleStar}>
+                                        <StyledIcon color={editorStar ? '#F1C200' : "#545962"} type="star" />
                                     </EditorButton>
                                 </EditorButtonsItem>
                                 <EditorButtonsItem>
@@ -208,6 +220,7 @@ const mapStateToProps = state => {
         activeNote: state.notesReducer.activeNote,
         noteGetting: state.notesReducer.noteGetting,
         activeRoute: state.routesReducer.activeRoute,
+        process: state.notesReducer.process
     }
 }
 

@@ -37,7 +37,6 @@ function App({auth, process}) {
 }
 
 const mapStateToProps = state => {
-  console.log(state.notesReducer.process);
   return {
     auth: state.firebase.auth,
     process: state.notesReducer.process
