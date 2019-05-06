@@ -96,6 +96,35 @@ export const getSpecificNote = id => {
     }  
 }
 
+export const removeNote = (id, activeRoute) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                firestore.collection('users').doc(user.uid).collection('notes').doc(id).delete().then(() => {
+                    dispatch(clearActiveNote());
+                    switch(activeRoute) {
+                        case 'all':
+                            dispatch(getAllNotes());
+                            break;
+                        case 'star':
+                            dispatch(getStarNotes());
+                            break;
+                        case 'trash':
+                            dispatch(getTrashNotes());
+                            break;
+                        default: dispatch(getTagNotes(activeRoute));
+                    }
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        })
+    }
+}
+
 export const clearActiveNote = () => {
     return dispatch => {
         dispatch({
