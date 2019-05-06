@@ -14,8 +14,8 @@ const LeftMenuContainer = styled.div`
     height: 100vh;
     background: #21242A;
     position: relative;
-    //box-shadow: 0px 0px 20px 1px #000000 inset;
     overflow-y: auto;
+    z-index: 1;
 
     @media (max-width: 1110px) {
         width: 250px;
@@ -28,8 +28,9 @@ const LeftMenuContainer = styled.div`
     @media (max-width: 650px) {
         left: 0;
         overflow-y: auto;
-        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'unset' )};
+        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'initial' )};
         width: ${({menuActive}) => ( menuActive ? '250px' : '0' )};
+        box-shadow: ${({menuActive}) => ( menuActive ? '2px 0px 20px -5px #000000' : 'initial' )};
     }
 `
 
