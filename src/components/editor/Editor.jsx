@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
@@ -112,50 +112,70 @@ const StyledLoader = styled(Loader)`
     margin: auto;
 `
 
-const Editor = ({activeNote, noteGetting}) => {
-    const [isEditorOff, setEditorState] = useState(true);
-
-    const toggleEdit = () => {
-        setEditorState(!isEditorOff);
+class Editor extends Component {
+    constructor() {
+        super();
+        this.state ={
+            isEditorOff: true,
+            editorValue: ''
+        }
     }
 
-    return (
-        <EditorContainer>
-            {
-                activeNote ? (
-                    <>
-                        <EditorNav>
-                        <EditorTitle>{activeNote.name}</EditorTitle>
-                        <EditorButtonsList>
-                            <EditorButtonsItem>
-                                <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={toggleEdit}>
-                                    <StyledIcon color="#545962" type="edit" />
-                                </EditorButton>
-                            </EditorButtonsItem>
-                            <EditorButtonsItem>
-                                <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'}>
-                                    <StyledIcon color={activeNote.star ? '#F1C200' : "#545962"} type="star" />
-                                </EditorButton>
-                            </EditorButtonsItem>
-                        </EditorButtonsList>
-                        </EditorNav>
-                        <EditorTextArea editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={activeNote.value}></EditorTextArea>
-                        <EditorWordsLength>{`${activeNote.value.length} words`}</EditorWordsLength>
-                        <ReactTooltip type="dark" effect="solid"/>
-                    </>
-
-                ) : (
-                    noteGetting ? (
-                        <StyledLoader />
-                    ) : (
-                        <EditorNoNote>Nothing here ;(</EditorNoNote>
-                    )
-                )
+    componentDidUpdate(prevProps) {
+        if (this.props.activeNote) {
+            if (prevProps.activeNote !== this.props.activeNote) {
+                this.setState({ editorValue: this.props.activeNote.value });
             }
+        }
+    }
 
-        </EditorContainer>
-    );
-};
+    toggleEdit = () => {
+        this.setState({ isEditorOff: !this.state.isEditorOff });
+    }
+
+    handleEditorText = e => {
+        this.setState({ editorValue: e.target.value });
+    }
+
+    render() {
+        const { activeNote, noteGetting } = this.props;
+        const { isEditorOff, editorValue } = this.state;
+        return (
+            <EditorContainer>
+                {
+                    activeNote ? (
+                        <>
+                            <EditorNav>
+                            <EditorTitle>{activeNote.name}</EditorTitle>
+                            <EditorButtonsList  >
+                                <EditorButtonsItem>
+                                    <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={this.toggleEdit}>
+                                        <StyledIcon color="#545962" type="edit" />
+                                    </EditorButton>
+                                </EditorButtonsItem>
+                                <EditorButtonsItem>
+                                    <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'}>
+                                        <StyledIcon color={activeNote.star ? '#F1C200' : "#545962"} type="star" />
+                                    </EditorButton>
+                                </EditorButtonsItem>
+                            </EditorButtonsList>
+                            </EditorNav>
+                            <EditorTextArea onChange={this.handleEditorText} editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={editorValue}></EditorTextArea>
+                            <EditorWordsLength>{`${activeNote.value.length} words`}</EditorWordsLength>
+                            <ReactTooltip type="dark" effect="solid"/>
+                        </>
+                    ) : (
+                        noteGetting ? (
+                            <StyledLoader />
+                        ) : (
+                            <EditorNoNote>Nothing here ;(</EditorNoNote>
+                        )
+                    )
+                }
+            </EditorContainer>
+        )
+    }
+}
 
 const mapStateToProps = state => {
     return {

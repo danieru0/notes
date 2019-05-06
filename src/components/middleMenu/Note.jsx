@@ -11,6 +11,8 @@ const NoteContainer = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+
+    background: ${({noteId, clickedNoteId}) => ( noteId === clickedNoteId ? '#444951' : 'unset' )}
 `
 
 const StyledCircle = styled(Circle)`
@@ -49,14 +51,14 @@ const NoteDate = styled.p`
     top: 5px;
 `
 
-const Note = ({title, description, date, color}) => {
+const Note = ({title, description, date, color, noteId, clickedNoteId}) => {
 
     if (description.length > 140) {
         description = description.substring(0, 140)+'...';
     }
 
     return (
-        <NoteContainer>
+        <NoteContainer noteId={noteId} clickedNoteId={clickedNoteId}>
             <StyledCircle color={color} size="small" />
             <NoteWrapper>
                 <NoteTitle>{title}</NoteTitle>

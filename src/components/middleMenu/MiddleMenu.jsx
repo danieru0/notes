@@ -101,7 +101,8 @@ class MiddleMenu extends Component {
     constructor() {
         super();
         this.state = {
-            isMenuActive: false
+            isMenuActive: false,
+            clickedNoteId: null
         }
     }
 
@@ -131,7 +132,15 @@ class MiddleMenu extends Component {
     }
 
     handleNoteClick = id => {
-        this.props.getSpecificNote(id);
+        if (this.props.activeNote) {
+            if (this.props.activeNote.id !== id) {
+                this.props.getSpecificNote(id);
+                this.setState({ clickedNoteId: id })
+            }
+        } else {
+            this.props.getSpecificNote(id);
+            this.setState({ clickedNoteId: id })
+        }
     }
 
     render() {
@@ -150,7 +159,7 @@ class MiddleMenu extends Component {
                                 let note = notes[item];
                                 return (
                                     <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
-                                        <Note title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                        <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
                                     </MiddleMenuItem>
                                 )
                             })
@@ -167,6 +176,7 @@ class MiddleMenu extends Component {
 const mapStateToProps = state => {
     return {
         activeRoute: state.routesReducer.activeRoute,
+        activeNote: state.notesReducer.activeNote,
         routeChanging: state.routesReducer.routeChanging,
         notes: state.notesReducer.notes
     }
