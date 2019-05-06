@@ -125,6 +125,11 @@ export const updateNote = (id, type, newValue, activeRoute) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
 
+        dispatch({
+            type: 'SET_PROCESS',
+            data: true
+        })
+
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 let noteRef = firestore.collection('users').doc(user.uid).collection('notes').doc(id);
@@ -149,16 +154,20 @@ export const updateNote = (id, type, newValue, activeRoute) => {
                     }).then(() => {
                         switch(activeRoute) {
                             case 'all':
-                                dispatch(getAllNotes(activeRoute));
+                                dispatch(getAllNotes());
                                 break;
                             case 'star':
-                                dispatch(getStarNotes(activeRoute));
+                                dispatch(getStarNotes());
                                 break;
                             case 'trash':
-                                dispatch(getTrashNotes(activeRoute));
+                                dispatch(getTrashNotes());
                                 break;
                             default: dispatch(getTagNotes(activeRoute));
                         }
+                        dispatch({
+                            type: 'SET_PROCESS',
+                            data: false
+                        })
                     }).catch(err => {
                         console.log(err);
                     })

@@ -1,26 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { getAllNotes, getStarNotes,getTrashNotes, getSpecificNote, getTagNotes, createNewNote, updateNote } from './actions/notesActions';
+import styled from 'styled-components';
 
 import LeftMenu from './components/leftMenu/LeftMenu';
 import MiddleMenu from './components/middleMenu/MiddleMenu';
 import Editor from './components/editor/Editor';
 import Auth from './components/Auth/Auth';
+import ProcessLoader from './components/ProcessLoader/ProcessLoader';
 
 import './App.css';
 
-function App({auth, getAllNotes, getStarNotes, getTrashNotes, getSpecificNote, getTagNotes, createNewNote, updateNote}) {
+const StyledProcessLoader = styled(ProcessLoader)`
+  opacity: ${({process}) => ( process ? '1' : '0' )};
+  visibility: ${({process}) => ( process ? 'visible' : 'hidden' )}; 
+  transition: opacity .3s, visibility .3s;
+`
 
-  //getAllNotes();
-  //getStarNotes();
-  //getTrashNotes();
-  //getSpecificNote('vEJmo22MahTmwPqoEIij');
-  //getTagNotes('Article');
-  //createNewNote('Article', 'red', 'elo mordo');
-  //updateNote('w2pKVh64AeBANaWz8oGI', 'text', 'ah shit here we go again');
-  //updateNote('w2pKVh64AeBANaWz8oGI', 'star', true);
-  //updateNote('w2pKVh64AeBANaWz8oGI', 'trash', true);
+function App({auth, process}) {
   
   return (
     <div className="App">
@@ -30,6 +26,7 @@ function App({auth, getAllNotes, getStarNotes, getTrashNotes, getSpecificNote, g
             <LeftMenu />
             <MiddleMenu />
             <Editor />
+            <StyledProcessLoader process={process}/>
           </>
         ) : (
           <Auth />
@@ -40,9 +37,11 @@ function App({auth, getAllNotes, getStarNotes, getTrashNotes, getSpecificNote, g
 }
 
 const mapStateToProps = state => {
+  console.log(state.notesReducer.process);
   return {
-    auth: state.firebase.auth
+    auth: state.firebase.auth,
+    process: state.notesReducer.process
   }
 }
 
-export default connect(mapStateToProps, { getAllNotes, getStarNotes, getTrashNotes, getSpecificNote, getTagNotes, createNewNote, updateNote })(App);
+export default connect(mapStateToProps, null)(App);

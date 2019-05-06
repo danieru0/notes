@@ -1,7 +1,8 @@
 const initState = {
     notes: null,
     activeNote: null,
-    noteGetting: false
+    noteGetting: false,
+    process: false
 }
 
 const notesReducer = (state = initState, action) => {
@@ -27,6 +28,11 @@ const notesReducer = (state = initState, action) => {
                 ...state,
                 activeNote: action.data,
                 noteGetting: false
+            }
+        case 'SET_PROCESS':
+            return {
+                ...state,
+                process: action.data
             }
         default: return state;
     }
