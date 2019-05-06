@@ -120,7 +120,8 @@ class Editor extends Component {
         this.state ={
             isEditorOff: true,
             editorValue: '',
-            editorStar: null
+            editorStar: null,
+            texting: false
         }
     }
 
@@ -157,7 +158,12 @@ class Editor extends Component {
     }
 
     handleEditorText = e => {
-        this.setState({ editorValue: e.target.value });
+        this.setState({ editorValue: e.target.value, texting: true });
+    }
+
+    saveButton = () => {
+        this.props.updateNote(this.props.activeNote.id, 'text', this.state.editorValue, this.props.activeRoute);
+        this.setState({ texting: false });
     }
 
     keyShortcut = e => {
@@ -165,13 +171,18 @@ class Editor extends Component {
             if (!this.state.isEditorOff) {
                 e.preventDefault();
                 this.props.updateNote(this.props.activeNote.id, 'text', this.state.editorValue, this.props.activeRoute);
+                this.setState({ texting: false });
             }
+        }
+        if (e.keyCode === 112) {
+            e.preventDefault();
+            this.setState({ isEditorOff: !this.state.isEditorOff });
         }
     }
 
     render() {
         const { activeNote, noteGetting } = this.props;
-        const { isEditorOff, editorValue, editorStar } = this.state;
+        const { isEditorOff, editorValue, editorStar, texting } = this.state;
 
         return (
             <EditorContainer ref={r => this.editor = r}>
@@ -182,18 +193,18 @@ class Editor extends Component {
                             <EditorTitle>{activeNote.name}</EditorTitle>
                             <EditorButtonsList  >
                                 <EditorButtonsItem>
-                                    <EditorButton data-tip={isEditorOff ? "Edit mode" : "Read mode"} onClick={this.toggleEdit}>
-                                        <StyledIcon color="#545962" type="edit" />
+                                    <EditorButton data-tip={isEditorOff ? "Edit mode (F1)" : "Read mode (F1)"} onClick={this.toggleEdit}>
+                                        <StyledIcon color={isEditorOff ? "#545962" : "#767984"} type="edit" />
                                     </EditorButton>
                                 </EditorButtonsItem>
                                 <EditorButtonsItem>
-                                    <EditorButton data-tip={activeNote.star ? 'Unstar' : 'Star it!'} onClick={this.toggleStar}>
+                                    <EditorButton data-tip={editorStar ? 'Unstar' : 'Star it!'} onClick={this.toggleStar}>
                                         <StyledIcon color={editorStar ? '#F1C200' : "#545962"} type="star" />
                                     </EditorButton>
                                 </EditorButtonsItem>
                                 <EditorButtonsItem>
-                                    <EditorButton data-tip="Save (CTRL + S)">
-                                        <StyledIcon color="#545962" type="save" />
+                                    <EditorButton data-tip="Save (CTRL + S)" onClick={this.saveButton}>
+                                        <StyledIcon color={texting ? "#3599DE" : "#545962"} type="save" />
                                     </EditorButton>
                                 </EditorButtonsItem>
                             </EditorButtonsList>
