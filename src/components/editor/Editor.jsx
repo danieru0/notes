@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 
-import { updateNote } from '../../actions/notesActions';
+import { updateNote, clearActiveNote, getSpecificNote } from '../../actions/notesActions';
 
 import Icon from '../Icon/Icon';
 import Loader from '../Loader/Loader';
@@ -166,6 +166,16 @@ class Editor extends Component {
         this.setState({ texting: false });
     }
 
+    trashHandler = () => {
+        if (this.props.activeNote.trash === false) {
+            this.props.updateNote(this.props.activeNote.id, 'trash', true, this.props.activeRoute);
+            this.props.clearActiveNote();
+        } else {
+            this.props.updateNote(this.props.activeNote.id, 'trash', false, this.props.activeRoute, true);
+            this.props.clearActiveNote();
+        }
+    }
+
     keyShortcut = e => {
         if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) {
             if (!this.state.isEditorOff) {
@@ -207,6 +217,11 @@ class Editor extends Component {
                                         <StyledIcon color={texting ? "#3599DE" : "#545962"} type="save" />
                                     </EditorButton>
                                 </EditorButtonsItem>
+                                <EditorButtonsItem>
+                                    <EditorButton data-tip={activeNote.trash ? "Restore" : "Move to trash"} onClick={this.trashHandler}>
+                                        <StyledIcon color={activeNote.trash ? "#E04E38" : "#545962"} type={activeNote.trash ? "restore" : "trash"} />
+                                    </EditorButton>
+                                </EditorButtonsItem>
                             </EditorButtonsList>
                             </EditorNav>
                             <EditorTextArea onChange={this.handleEditorText} editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={editorValue}></EditorTextArea>
@@ -235,4 +250,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { updateNote })(Editor);
+export default connect(mapStateToProps, { updateNote, clearActiveNote, getSpecificNote })(Editor);

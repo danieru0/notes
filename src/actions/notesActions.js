@@ -96,6 +96,14 @@ export const getSpecificNote = id => {
     }  
 }
 
+export const clearActiveNote = () => {
+    return dispatch => {
+        dispatch({
+            type: 'CLEAR_ACTIVE_NOTES'
+        });
+    }
+}
+
 //----------------------------------------------------
 
 export const createNewNote = (tag, color, name) => {
@@ -120,7 +128,7 @@ export const createNewNote = (tag, color, name) => {
     }
 }
 
-export const updateNote = (id, type, newValue, activeRoute) => {
+export const updateNote = (id, type, newValue, activeRoute, getNewNoteAfter) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
@@ -168,6 +176,9 @@ export const updateNote = (id, type, newValue, activeRoute) => {
                             type: 'SET_PROCESS',
                             data: false
                         })
+                        if (getNewNoteAfter) {
+                            dispatch(getSpecificNote(id));
+                        }
                     }).catch(err => {
                         console.log(err);
                     })
