@@ -5,7 +5,7 @@ export const getAllNotes = () => {
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                firestore.collection('users').doc(user.uid).collection('notes').get().then(snapshot => {
+                firestore.collection('users').doc(user.uid).collection('notes').where("trash", "==", false).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
                     dispatch({
                         type: 'UPDATE_NOTES',
@@ -62,7 +62,7 @@ export const getTagNotes = tag => {
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                firestore.collection('users').doc(user.uid).collection('notes').where("tag", "==", tag).get().then(snapshot => {
+                firestore.collection('users').doc(user.uid).collection('notes').where("tag", "==", tag).where("trash", "==", false).get().then(snapshot => {
                     let notes = snapshot.docs.map(doc => doc.data());
                     dispatch({
                         type: 'UPDATE_NOTES',
