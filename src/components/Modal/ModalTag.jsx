@@ -73,6 +73,19 @@ const ModalButton = styled.button`
     margin-top: 30px;
     cursor: pointer;
     outline: none;
+    position: relative;
+
+    &:after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        left: 0;
+        top: 0;
+        position: absolute;
+        cursor: default;
+        display: ${({disabled}) => (disabled ? 'block' : 'none')};
+    }
 `
 
 const ModalClose = styled.button`
@@ -85,7 +98,7 @@ const ModalClose = styled.button`
     outline: none;
 `
 
-const ModalTag = ({createNewTag, showModal}) => {
+const ModalTag = ({process, createNewTag, showModal}) => {
     const [currentColor, setCurrentColor] = useState('red');
     const [tagName, setTagName] = useState(null);
     const colorInputEl = useRef(null);
@@ -126,14 +139,14 @@ const ModalTag = ({createNewTag, showModal}) => {
                 <ModalInput onChange={handleNameChange} placeholder="Tag name" required/>
                 <StyledCircle onClick={handleCircleClick} color={currentColor} size="big" />
             </ModalWrapper>
-            <ModalButton onClick={createTag}>Create tag</ModalButton>
+            <ModalButton disabled={process} onClick={createTag}>Create tag</ModalButton>
         </Modal>
     );
 };
 
 const mapStateToProps = state => {
     return {
-        activeRoute: state.routesReducer.activeRoute
+        process: state.notesReducer.process
     }
 }
 
