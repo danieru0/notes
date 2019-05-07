@@ -4,6 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 
 import { createNewNote } from '../../actions/notesActions';  
+import { showModal } from '../../actions/modalActions';
 
 import Icon from '../Icon/Icon';
 
@@ -91,7 +92,22 @@ const NavInputAdd = styled(NavInput)`
     transition: transform .3s, opacity .3s, visibility .3s;
 `
 
-const Nav = ({activeRoute, number, tag, createNewNote}) => {
+const NavTagAdd = styled.button`
+    border: none;
+    background: none;
+    position: absolute;
+    left: 0;
+    top: 6px;
+    cursor: pointer;
+    outline: none;
+
+    @media (max-width: 650px) {
+        right: auto;
+        left: 0;
+    }
+`
+
+const Nav = ({activeRoute, number, tag, createNewNote, showModal}) => {
     const [isAddClick, setAddClickState] = useState(false);
     const [newNoteName, setNewNote] = useState(null);
 
@@ -116,9 +132,16 @@ const Nav = ({activeRoute, number, tag, createNewNote}) => {
         }
     }
 
+    const addTag = () => {
+        showModal('tag');
+    }
+
     return (
         <NavContainer>
             <NavWrapper>
+                <NavTagAdd data-tip="Create tag" onClick={addTag}>
+                    <Icon color="#545962" type="tags" />
+                </NavTagAdd>
                 <NavTitle>{activeRoute}</NavTitle>
                 <NavNumber>{number}</NavNumber>
                 <NavAddButton data-tip="Add note" isAddClicked={isAddClick} onClick={toggleAddClick}>
@@ -134,4 +157,4 @@ const Nav = ({activeRoute, number, tag, createNewNote}) => {
     );
 };
 
-export default connect(null, { createNewNote })(Nav);
+export default connect(null, { createNewNote, showModal })(Nav);
