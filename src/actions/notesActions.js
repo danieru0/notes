@@ -248,6 +248,14 @@ export const createNewTag = (color, name) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
 
+        if (name.length > 15) {
+            dispatch({
+                type: 'SET_MODAL_ERROR_MESSAGE',
+                data: 'Tag name is too long! Max length is 15 characters!'
+            })
+            return false;
+        }
+
         dispatch({
             type: 'SET_PROCESS',
             data: true

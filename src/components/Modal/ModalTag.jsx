@@ -101,6 +101,9 @@ const ModalClose = styled.button`
 const ModalError = styled.p`
     position: absolute;
     top: 0;
+    left: 0;
+    text-align: center;
+    right: 0;
     color: red;
     font-size: 16px;
     font-family: 'PT Serif', serif;
@@ -126,9 +129,7 @@ const ModalTag = ({process, modalErrorMessage, createNewTag, showModal}) => {
     const createTag = e => {
         if (tagName) {
             e.preventDefault();
-            if (tagName.length < 15) {
-                createNewTag(currentColor, tagName);
-            }
+            createNewTag(currentColor, tagName);
         }
     }
 
