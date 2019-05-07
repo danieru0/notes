@@ -28,11 +28,20 @@ const Modal = styled.form`
         font-size: 26px;
         font-family: 'PT Serif', serif;
     }
+
+    @media (max-width: 540px) {
+        width: 80%;
+    }
 `
 
 const ModalWrapper = styled.div`
     display: flex;
     align-items: center;
+
+    @media (max-width: 440px) {
+        flex-direction: column;
+        width: 100%;
+    }
 `
 
 const ModalInput = styled.input`
@@ -50,11 +59,20 @@ const ModalInput = styled.input`
     &:focus {
         border: 1px solid #aaa;
     }
+
+    @media (max-width: 440px) {
+        width: 90%;
+    }
 `
 
 const StyledCircle = styled(Circle)`
     cursor: pointer;
     margin-left: 20px;
+
+    @media (max-width: 440px) {
+        margin-left: 0;
+        margin-top: 15px;
+    }
 `
 
 const ModalColorInput = styled.input`
