@@ -298,3 +298,50 @@ export const createNewTag = (color, name) => {
         });
     }
 }
+
+export const removeTag = tag => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        dispatch({
+            type: 'SET_PROCESS',
+            data: true
+        })
+        dispatch({
+            type: 'SET_REMOVING_TAG',
+            data: true
+        })
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                firestore.collection('users').doc(user.uid).update({
+                    ['tags.'+tag]: firebase.firestore.FieldValue.delete()
+                }).then(() => {
+                    firestore.collection('users').doc(user.uid).collection('notes').where("tag", "==", tag).get().then(snapshot => {
+                        let notes = snapshot.docs.map(doc => doc.data());
+                        const deletingNotes = notes.map(async (item) => {
+                            return firestore.collection('users').doc(user.uid).collection('notes').doc(item.id).delete();
+                        });
+                        
+                        Promise.all(deletingNotes).then(() => {
+                            dispatch({
+                                type: 'UPDATE_ROUTE',
+                                route: 'all'
+                            })
+                            dispatch(getAllNotes());
+                            dispatch({
+                                type: 'SET_PROCESS',
+                                data: false
+                            })
+                            dispatch({
+                                type: 'SET_REMOVING_TAG',
+                                data: false
+                            })
+                        })
+                    })
+                })
+            }
+        })
+    }
+}

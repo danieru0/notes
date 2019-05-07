@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { updateRoute } from '../../actions/routesActions';
+import { removeTag } from '../../actions/notesActions';
 
 import Logo from './Logo';
 import Icon from '../Icon/Icon';
@@ -105,15 +106,15 @@ const LeftMenuItemDropdownItem = styled.li`
     }
 `
 
-const LeftMenuItemDropdownNumber = styled.span`
-    color: #8C8E90;
+const LeftMenuItemDropdownDeleteButton = styled.button`
     margin-left: auto;
     position: relative;
     right: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
 
-    @media (max-width: 1490px) {
-        display: none;
-    }
 `
 
 const LeftMenuButtonShow = styled.button`
@@ -135,7 +136,7 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const LeftMenu = ({profile, activeRoute, updateRoute}) => {
+const LeftMenu = ({profile, activeRoute, updateRoute, removeTag}) => {
     const [isDropdownShown, setDropdownState] = useState(false);
     const [isMenuActive, setMenuState] = useState(false);
 
@@ -152,6 +153,11 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
         if (activeRoute !== route) {
             updateRoute(route);
         }
+    }
+
+    const handleRemoveTag = (e, activeRoute) => {
+        e.stopPropagation();
+        removeTag(activeRoute);
     }
 
     return (
@@ -183,7 +189,9 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
                                             <LeftMenuItemDropdownItem type={item} activeRoute={activeRoute} key={index} onClick={(e) => handleMenuClick(e, item)}>
                                                 <Circle size="big" color={tagProperties.color} />
                                                 <LeftMenuItemText>{item}</LeftMenuItemText>
-                                                <LeftMenuItemDropdownNumber>{tagProperties.length}</LeftMenuItemDropdownNumber>
+                                                <LeftMenuItemDropdownDeleteButton onClick={(e) => handleRemoveTag(e, item)}>
+                                                    <Icon color="#333840" type="trash" />
+                                                </LeftMenuItemDropdownDeleteButton>
                                             </LeftMenuItemDropdownItem>
                                         )
                                     })
@@ -207,8 +215,8 @@ const LeftMenu = ({profile, activeRoute, updateRoute}) => {
 const mapStateToProps = state => {
     return {
         profile: state.firebase.profile,
-        activeRoute: state.routesReducer.activeRoute
+        activeRoute: state.routesReducer.activeRoute,
     }
 }
 
-export default connect(mapStateToProps, { updateRoute })(LeftMenu);
+export default connect(mapStateToProps, { updateRoute, removeTag })(LeftMenu);

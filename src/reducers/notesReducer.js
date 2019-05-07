@@ -2,7 +2,8 @@ const initState = {
     notes: null,
     activeNote: null,
     noteGetting: false,
-    process: false
+    process: false,
+    removingTag: false
 }
 
 const notesReducer = (state = initState, action) => {
@@ -38,6 +39,11 @@ const notesReducer = (state = initState, action) => {
             return {
                 ...state,
                 process: action.data
+            }
+        case 'SET_REMOVING_TAG':
+            return {
+                ...state,
+                removingTag: action.data
             }
         default: return state;
     }

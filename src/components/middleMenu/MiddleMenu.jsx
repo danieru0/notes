@@ -15,6 +15,7 @@ const MiddleMenuContainer = styled.div`
     background: #333840;
     box-shadow: -2px 0px 20px -5px #000000;
     z-index: 1;
+    position: relative;
 
     @media (max-width: 1300px) {
         width: 220px;
@@ -25,7 +26,7 @@ const MiddleMenuContainer = styled.div`
         z-index: 1;
         left: 250px;
         width: ${({menuActive}) => ( menuActive ? '250px' : '0' )};
-        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'none' )};
+        position: ${({menuActive}) => ( menuActive ? 'absolute' : 'initial' )};
     }
 
     @media (max-width: 700px) {
@@ -35,6 +36,17 @@ const MiddleMenuContainer = styled.div`
     @media (max-width: 650px) {
         left: auto;
         right: 0;
+    }
+
+    &:before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        display: ${({removingTag}) => ( removingTag ? 'block' : 'none' )};
     }
 `
 
@@ -144,10 +156,10 @@ class MiddleMenu extends Component {
     }
 
     render() {
-        const { notes, activeRoute, profile } = this.props;
+        const { notes, activeRoute, profile, removingTag } = this.props;
 
         return (
-            <MiddleMenuContainer menuActive={this.state.isMenuActive}>
+            <MiddleMenuContainer removingTag={removingTag} menuActive={this.state.isMenuActive}>
                 <MiddleMenuShowButton onClick={this.toggleMenu}>
                     <StyledIcon color="#545962" type="hamburger" />
                 </MiddleMenuShowButton>
@@ -180,6 +192,7 @@ const mapStateToProps = state => {
         routeChanging: state.routesReducer.routeChanging,
         notes: state.notesReducer.notes,
         profile: state.firebase.profile,
+        removingTag: state.notesReducer.removingTag
     }
 }
 
