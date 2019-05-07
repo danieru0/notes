@@ -107,9 +107,10 @@ const NavTagAdd = styled.button`
     }
 `
 
-const Nav = ({activeRoute, number, tag, createNewNote, showModal}) => {
+const Nav = ({activeRoute, number, tag, createNewNote, showModal, handleSearch}) => {
     const [isAddClick, setAddClickState] = useState(false);
     const [newNoteName, setNewNote] = useState(null);
+    const [searchValue, setSearchValue] = useState(null);
 
     const toggleAddClick = () => {
         setAddClickState(!isAddClick);
@@ -136,6 +137,10 @@ const Nav = ({activeRoute, number, tag, createNewNote, showModal}) => {
         showModal('tag');
     }
 
+    const handleSearchInput = e => {
+        setSearchValue(e.target.value);
+    }
+
     return (
         <NavContainer>
             <NavWrapper>
@@ -149,7 +154,7 @@ const Nav = ({activeRoute, number, tag, createNewNote, showModal}) => {
                 </NavAddButton>
             </NavWrapper>
             <NavWrapper>
-                <NavInputSearch isAddClicked={isAddClick} placeholder="Search" />
+                <NavInputSearch onKeyPress={e => e.key === 'Enter' ? handleSearch(searchValue) : ''} onChange={handleSearchInput} isAddClicked={isAddClick} placeholder="Search" />
                 <NavInputAdd onKeyPress={createNote} onChange={handleNewNote} isAddClicked={isAddClick} placeholder="Note name"/>
             </NavWrapper>
             <ReactTooltip type="dark" effect="solid"/>

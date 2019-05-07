@@ -114,7 +114,8 @@ class MiddleMenu extends Component {
         super();
         this.state = {
             isMenuActive: false,
-            clickedNoteId: null
+            clickedNoteId: null,
+            searchedNotes: null
         }
     }
 
@@ -155,6 +156,18 @@ class MiddleMenu extends Component {
         }
     }
 
+    searchNotes = value => {
+        if (value) {
+            this.setState({
+                searchedNotes: this.props.notes.filter(item => item.name.includes(value))
+            })
+        } else {
+            this.setState({
+                searchedNotes: null
+            })
+        }
+    }
+
     render() {
         const { notes, activeRoute, profile, removingTag } = this.props;
 
@@ -163,12 +176,12 @@ class MiddleMenu extends Component {
                 <MiddleMenuShowButton onClick={this.toggleMenu}>
                     <StyledIcon color="#545962" type="hamburger" />
                 </MiddleMenuShowButton>
-                <Nav tag={profile.isLoaded ? profile.tags[activeRoute] : null} activeRoute={activeRoute} number={notes ? notes.length : ''}/>
+                <Nav handleSearch={this.searchNotes} tag={profile.isLoaded ? profile.tags[activeRoute] : null} activeRoute={activeRoute} number={notes ? notes.length : ''}/>
                 <MiddleMenuList notes={notes}>
                     {
-                        notes ? (
-                            Object.keys(notes).map(item => {
-                                let note = notes[item];
+                        this.state.searchedNotes ? (
+                            Object.keys(this.state.searchedNotes).map(item => {
+                                let note = this.state.searchedNotes[item];
                                 return (
                                     <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
                                         <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
@@ -176,7 +189,18 @@ class MiddleMenu extends Component {
                                 )
                             })
                         ) : (
-                            <StyledLoader />
+                            notes ? (
+                                Object.keys(notes).map(item => {
+                                    let note = notes[item];
+                                    return (
+                                        <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
+                                            <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                        </MiddleMenuItem>
+                                    )
+                                })
+                            ) : (
+                                <StyledLoader />
+                            )
                         )
                     }
                 </MiddleMenuList>
