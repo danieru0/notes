@@ -7,6 +7,7 @@ import MiddleMenu from './components/middleMenu/MiddleMenu';
 import Editor from './components/editor/Editor';
 import Auth from './components/Auth/Auth';
 import ProcessLoader from './components/ProcessLoader/ProcessLoader';
+import Modal from './components/Modal/Modal';
 
 import './App.css';
 
@@ -27,6 +28,7 @@ function App({auth, process}) {
             <MiddleMenu />
             <Editor />
             <StyledProcessLoader process={process}/>
+            <Modal type="tag"/>
           </>
         ) : (
           <Auth />

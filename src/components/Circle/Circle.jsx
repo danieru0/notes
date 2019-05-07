@@ -8,9 +8,9 @@ const CircleComponent = styled.div`
     border-radius: 50%;
 `
 
-const Circle = ({color, size, className}) => {
+const Circle = ({color, size, className, onClick}) => {
     return (
-        <CircleComponent color={color} size={size} className={className} />
+        <CircleComponent onClick={onClick} color={color} size={size} className={className} />
     );
 };
 
