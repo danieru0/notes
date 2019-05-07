@@ -1,5 +1,8 @@
 import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { createNewTag } from '../../actions/notesActions';
 
 import Circle from '../Circle/Circle';
 
@@ -54,6 +57,7 @@ const StyledCircle = styled(Circle)`
 
 const ModalColorInput = styled.input`
     display: none;
+    visibility: hidden;
 `
 
 const ModalButton = styled.button`
@@ -68,7 +72,7 @@ const ModalButton = styled.button`
     cursor: pointer;
 `
 
-const ModalTag = () => {
+const ModalTag = ({createNewTag}) => {
     const [currentColor, setCurrentColor] = useState('red');
     const [tagName, setTagName] = useState(null);
     const colorInputEl = useRef(null);
@@ -88,7 +92,9 @@ const ModalTag = () => {
     const createTag = e => {
         if (tagName) {
             e.preventDefault();
-            alert(tagName);
+            if (tagName.length < 15) {
+                createNewTag(currentColor, tagName);
+            }
         }
     }
 
@@ -104,4 +110,10 @@ const ModalTag = () => {
     );
 };
 
-export default ModalTag;
+const mapStateToProps = state => {
+    return {
+        activeRoute: state.routesReducer.activeRoute
+    }
+}
+
+export default connect(mapStateToProps, { createNewTag })(ModalTag);

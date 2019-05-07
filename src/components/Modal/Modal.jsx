@@ -17,6 +17,9 @@ const ModalContainer = styled.div`
 `
 
 const Modal = ({type}) => {
+    if (!type ) {
+        return null;
+    }
     return (
         <ModalContainer>
             {

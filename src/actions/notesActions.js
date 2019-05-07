@@ -240,3 +240,40 @@ export const updateNote = (id, type, newValue, activeRoute, getNewNoteAfter) => 
         });
     }
 }
+
+//---------------------------
+
+export const createNewTag = (color, name) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        dispatch({
+            type: 'SET_PROCESS',
+            data: true
+        })
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                firestore.collection('users').doc(user.uid).set({
+                    tags: {
+                        [name]: {
+                            color: color
+                        }
+                    }
+                }, { merge: true }).then(() => {
+                    dispatch({
+                        type: 'SET_PROCESS',
+                        data: false
+                    });
+                    dispatch({
+                        type: 'UPDATE_MODAL',
+                        data: null
+                    });
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        });
+    }
+}

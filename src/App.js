@@ -17,7 +17,7 @@ const StyledProcessLoader = styled(ProcessLoader)`
   transition: opacity .3s, visibility .3s;
 `
 
-function App({auth, process}) {
+function App({auth, process, activeModal}) {
   
   return (
     <div className="App">
@@ -28,7 +28,7 @@ function App({auth, process}) {
             <MiddleMenu />
             <Editor />
             <StyledProcessLoader process={process}/>
-            <Modal type="tag"/>
+            <Modal type={activeModal} />
           </>
         ) : (
           <Auth />
@@ -41,7 +41,8 @@ function App({auth, process}) {
 const mapStateToProps = state => {
   return {
     auth: state.firebase.auth,
-    process: state.notesReducer.process
+    process: state.notesReducer.process,
+    activeModal: state.modalReducer.activeModal
   }
 }
 
