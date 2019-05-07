@@ -1,5 +1,6 @@
 const initState = {
-    activeModal: null
+    activeModal: null,
+    modalErrorMessage: null
 }
 
 const modalReducer = (state = initState, action) => {
@@ -8,6 +9,11 @@ const modalReducer = (state = initState, action) => {
             return {
                 ...state,
                 activeModal: action.data
+            }
+        case 'SET_MODAL_ERROR_MESSAGE':
+            return {
+                ...state,
+                modalErrorMessage: action.data
             }
         default: return state;
     }

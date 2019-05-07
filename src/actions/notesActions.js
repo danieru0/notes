@@ -255,23 +255,36 @@ export const createNewTag = (color, name) => {
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
-                firestore.collection('users').doc(user.uid).set({
-                    tags: {
-                        [name]: {
-                            color: color
-                        }
+                firestore.collection('users').doc(user.uid).get().then(doc => {
+                    if (!doc.data().tags[name]) {
+                        firestore.collection('users').doc(user.uid).set({
+                            tags: {
+                                [name]: {
+                                    color: color
+                                }
+                            }
+                        }, { merge: true }).then(() => {
+                            dispatch({
+                                type: 'SET_PROCESS',
+                                data: false
+                            });
+                            dispatch({
+                                type: 'UPDATE_MODAL',
+                                data: null
+                            });
+                        }).catch(err => {
+                            console.log(err);
+                        })
+                    } else {
+                        dispatch({
+                            type: 'SET_PROCESS',
+                            data: false
+                        });
+                        dispatch({
+                            type: 'SET_MODAL_ERROR_MESSAGE',
+                            data: 'Tag with this name already exist!'
+                        })
                     }
-                }, { merge: true }).then(() => {
-                    dispatch({
-                        type: 'SET_PROCESS',
-                        data: false
-                    });
-                    dispatch({
-                        type: 'UPDATE_MODAL',
-                        data: null
-                    });
-                }).catch(err => {
-                    console.log(err);
                 })
             }
         });

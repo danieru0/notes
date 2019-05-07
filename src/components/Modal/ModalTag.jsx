@@ -10,7 +10,7 @@ import Icon from '../Icon/Icon';
 
 const Modal = styled.form`
     width: 500px;
-    height: 200px;
+    height: 250px;
     background: #333840;
     border-radius: 10px;
     box-shadow: 0px 0px 10px 0px #fff;
@@ -98,7 +98,15 @@ const ModalClose = styled.button`
     outline: none;
 `
 
-const ModalTag = ({process, createNewTag, showModal}) => {
+const ModalError = styled.p`
+    position: absolute;
+    top: 0;
+    color: red;
+    font-size: 16px;
+    font-family: 'PT Serif', serif;
+`
+
+const ModalTag = ({process, modalErrorMessage, createNewTag, showModal}) => {
     const [currentColor, setCurrentColor] = useState('red');
     const [tagName, setTagName] = useState(null);
     const colorInputEl = useRef(null);
@@ -130,22 +138,24 @@ const ModalTag = ({process, createNewTag, showModal}) => {
     }
 
     return (
-        <Modal>
-            <ModalClose onClick={closeModal}>
+        <Modal onSubmit={createTag}>
+            <ModalClose type="button" onClick={closeModal}>
                 <Icon type="close" color="#bbb" />
             </ModalClose>
+            <ModalError>{modalErrorMessage}</ModalError>
             <ModalColorInput onChange={handleCircleChange} ref={colorInputEl} type="color" />
             <ModalWrapper>
                 <ModalInput onChange={handleNameChange} placeholder="Tag name" required/>
                 <StyledCircle onClick={handleCircleClick} color={currentColor} size="big" />
             </ModalWrapper>
-            <ModalButton disabled={process} onClick={createTag}>Create tag</ModalButton>
+            <ModalButton disabled={process}>Create tag</ModalButton>
         </Modal>
     );
 };
 
 const mapStateToProps = state => {
     return {
+        modalErrorMessage: state.modalReducer.modalErrorMessage,
         process: state.notesReducer.process
     }
 }
