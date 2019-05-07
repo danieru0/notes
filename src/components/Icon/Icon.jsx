@@ -18,7 +18,8 @@ const Icon = ({color, type, className}) => {
         hamburger: 'fa fa-bars',
         save: 'fa fa-save',
         restore: 'fa fa-trash-restore',
-        forever: 'fa fa-infinity'
+        forever: 'fa fa-infinity',
+        close: 'fa fa-times'
     }
     return (
         <IconContainer className={className} color={color}>

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { createNewTag } from '../../actions/notesActions';
+import { showModal } from '../../actions/modalActions';
 
 import Circle from '../Circle/Circle';
+import Icon from '../Icon/Icon';
 
 const Modal = styled.form`
     width: 500px;
@@ -70,9 +72,20 @@ const ModalButton = styled.button`
     border: none;
     margin-top: 30px;
     cursor: pointer;
+    outline: none;
 `
 
-const ModalTag = ({createNewTag}) => {
+const ModalClose = styled.button`
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    outline: none;
+`
+
+const ModalTag = ({createNewTag, showModal}) => {
     const [currentColor, setCurrentColor] = useState('red');
     const [tagName, setTagName] = useState(null);
     const colorInputEl = useRef(null);
@@ -98,8 +111,16 @@ const ModalTag = ({createNewTag}) => {
         }
     }
 
+    const closeModal = e => {
+        e.preventDefault();
+        showModal(null);
+    }
+
     return (
         <Modal>
+            <ModalClose onClick={closeModal}>
+                <Icon type="close" color="#bbb" />
+            </ModalClose>
             <ModalColorInput onChange={handleCircleChange} ref={colorInputEl} type="color" />
             <ModalWrapper>
                 <ModalInput onChange={handleNameChange} placeholder="Tag name" required/>
@@ -116,4 +137,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { createNewTag })(ModalTag);
+export default connect(mapStateToProps, { createNewTag, showModal })(ModalTag);
