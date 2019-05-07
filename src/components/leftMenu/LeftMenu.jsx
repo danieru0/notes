@@ -136,7 +136,7 @@ const StyledIcon = styled(Icon)`
     font-size: 25px;
 `
 
-const LeftMenu = ({profile, activeRoute, updateRoute, removeTag}) => {
+const LeftMenu = ({profile, activeRoute, activeNote, updateRoute, removeTag}) => {
     const [isDropdownShown, setDropdownState] = useState(false);
     const [isMenuActive, setMenuState] = useState(false);
 
@@ -157,7 +157,7 @@ const LeftMenu = ({profile, activeRoute, updateRoute, removeTag}) => {
 
     const handleRemoveTag = (e, activeRoute) => {
         e.stopPropagation();
-        removeTag(activeRoute);
+        removeTag(activeRoute, activeNote);
     }
 
     return (
@@ -216,6 +216,7 @@ const mapStateToProps = state => {
     return {
         profile: state.firebase.profile,
         activeRoute: state.routesReducer.activeRoute,
+        activeNote: state.notesReducer.activeNote
     }
 }
 

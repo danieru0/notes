@@ -299,7 +299,7 @@ export const createNewTag = (color, name) => {
     }
 }
 
-export const removeTag = tag => {
+export const removeTag = (tag, activeNote) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
@@ -312,6 +312,12 @@ export const removeTag = tag => {
             type: 'SET_REMOVING_TAG',
             data: true
         })
+
+        if (activeNote.tag === tag) {
+            dispatch({
+                type: 'CLEAR_ACTIVE_NOTES',
+            });
+        }
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
