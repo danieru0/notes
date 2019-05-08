@@ -59,6 +59,7 @@ const FooterSaveStatus = styled.p`
     color: #5F6165;
     margin: 0;
     letter-spacing: 1px;
+    width: 76px;
 `
 
 const FooterWrapperButtons = styled.div`
@@ -80,7 +81,7 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = ({avatar, email, menuActive, dropdownActive, signOut, showModal}) => {
+const Footer = ({avatar, email, menuActive, dropdownActive, process, signOut, showModal}) => {
     
     const handleSignOut = () => {
         signOut();
@@ -95,7 +96,7 @@ const Footer = ({avatar, email, menuActive, dropdownActive, signOut, showModal})
             <FooterAvatar src={avatar ? avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} />
             <FooterWrapper>
                 <FooterNick >{email ? email.split('@')[0] : ''}</FooterNick>
-                <FooterSaveStatus>Saved</FooterSaveStatus>
+                <FooterSaveStatus>{process ? 'Saving...' : 'Saved'}</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
                 <FooterButton onClick={handleAvatarChange} data-tip="Change avatar">
@@ -110,4 +111,10 @@ const Footer = ({avatar, email, menuActive, dropdownActive, signOut, showModal})
     );
 };
 
-export default connect(null, { signOut, showModal })(Footer);
+const mapStateToProps = state => {
+    return {
+        process: state.notesReducer.process,
+    }
+}
+
+export default connect(mapStateToProps, { signOut, showModal })(Footer);
