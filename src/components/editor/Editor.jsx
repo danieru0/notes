@@ -131,10 +131,6 @@ class Editor extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.editor.removeEventListener(this.keyShortcut);
-    }
-
     componentDidUpdate(prevProps) {
         if (this.props.activeNote) {
             if (prevProps.activeNote !== this.props.activeNote) {

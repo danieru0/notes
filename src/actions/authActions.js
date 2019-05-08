@@ -50,3 +50,22 @@ export const signUp = (email, password) => {
         });
     }
 }
+
+export const signOut = () => {
+    return (dispatch, getState, { getFirebase }) => {
+        const firebase = getFirebase();
+
+        firebase.auth().signOut().then(() => {
+            dispatch({
+                type: 'CLEAR_ACTIVE_NOTES'
+            })
+            dispatch({
+                type: 'CLEAR_NOTES'
+            })
+            dispatch({
+                type: 'UPDATE_ROUTE',
+                route: 'all'
+            })
+        })
+    }
+}

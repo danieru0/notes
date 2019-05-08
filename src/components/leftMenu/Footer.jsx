@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import ReactTooltip from 'react-tooltip';
+import { connect } from 'react-redux';
+
+import { signOut } from '../../actions/authActions';
 
 const FooterContainer = styled.div`
     width: 100%;
@@ -76,7 +79,12 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = ({avatar, email, menuActive, dropdownActive}) => {
+const Footer = ({avatar, email, menuActive, dropdownActive, signOut}) => {
+    
+    const handleSignOut = () => {
+        signOut();
+    }
+
     return (
         <FooterContainer menuActive={menuActive} dropdownActive={dropdownActive}>
             <FooterAvatar src={avatar ? avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} />
@@ -85,11 +93,11 @@ const Footer = ({avatar, email, menuActive, dropdownActive}) => {
                 <FooterSaveStatus>Saved</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
-                <FooterButton data-tip="Sign out">
-                    <span className="fa fa-sign-out-alt"></span>
-                </FooterButton>
                 <FooterButton data-tip="Change avatar">
                     <span className="fa fa-user-circle"></span>
+                </FooterButton>
+                <FooterButton onClick={handleSignOut} data-tip="Sign out">
+                    <span className="fa fa-sign-out-alt"></span>
                 </FooterButton>
                 <ReactTooltip type="dark" effect="solid"/>
             </FooterWrapperButtons>
@@ -97,4 +105,4 @@ const Footer = ({avatar, email, menuActive, dropdownActive}) => {
     );
 };
 
-export default Footer;
+export default connect(null, { signOut })(Footer);
