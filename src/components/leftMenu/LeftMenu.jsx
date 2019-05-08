@@ -89,7 +89,7 @@ const LeftMenuItemDropdown = styled.div`
     background: #1F2125;
     cursor: auto;
     box-shadow: 0px 0px 20px 0px #000000 inset;
-    overflow-y: auto;
+    overflow-y: ${({isDropdownOpen}) => ( isDropdownOpen ? 'auto' : 'none' )};
 `
 
 const LeftMenuItemDropdownItem = styled.li`
