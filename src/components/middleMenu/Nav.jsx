@@ -149,7 +149,7 @@ const Nav = ({activeRoute, number, tag, createNewNote, showModal, handleSearch})
                 </NavTagAdd>
                 <NavTitle>{activeRoute}</NavTitle>
                 <NavNumber>{number}</NavNumber>
-                <NavAddButton data-tip="Add note" isAddClicked={isAddClick} onClick={toggleAddClick}>
+                <NavAddButton data-tip={isAddClick ? 'Search' : 'Add note'} isAddClicked={isAddClick} onClick={toggleAddClick}>
                     <Icon color="#3599DE" type="add" />
                 </NavAddButton>
             </NavWrapper>

@@ -93,6 +93,20 @@ const EditorWordsLength = styled.p`
     cursor: default;
 `
 
+const EditorTagName = styled.p`
+    color: #8D8E91;
+    font-family: 'PT Serif', serif;
+    font-style: italic;
+    position: absolute;
+    bottom: 10px;
+    left: 40px;
+    font-size: 14px;
+    cursor: default;
+    border: 1px solid #8D8E91;
+    padding: 2px 15px 4.5px 15px;
+    border-radius: 20px;
+`
+
 const EditorNoNote = styled.p`
     width: 100%;
     height: 100%;
@@ -236,6 +250,7 @@ class Editor extends Component {
                             </EditorButtonsList>
                             </EditorNav>
                             <EditorTextArea onChange={this.handleEditorText} editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={editorValue}></EditorTextArea>
+                            <EditorTagName>{activeNote.tag}</EditorTagName>
                             <EditorWordsLength>{`${editorValue.length} words`}</EditorWordsLength>
                             <ReactTooltip type="dark" effect="solid"/>
                         </>
