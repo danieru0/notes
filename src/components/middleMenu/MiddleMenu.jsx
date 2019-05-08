@@ -169,7 +169,7 @@ class MiddleMenu extends Component {
     }
 
     render() {
-        const { notes, activeRoute, profile, removingTag } = this.props;
+        const { notes, activeRoute, profile, removingTag, activeNote } = this.props;
 
         return (
             <MiddleMenuContainer removingTag={removingTag} menuActive={this.state.isMenuActive}>
@@ -194,7 +194,7 @@ class MiddleMenu extends Component {
                                     let note = notes[item];
                                     return (
                                         <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
-                                            <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                            <Note activeNoteId={activeNote ? activeNote.id : null} noteId={note.id} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
                                         </MiddleMenuItem>
                                     )
                                 })

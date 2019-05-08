@@ -212,29 +212,29 @@ export const updateNote = (id, type, newValue, activeRoute, getNewNoteAfter) => 
                                 break;
                             default: break;
                         }
-                    }).then(() => {
-                        switch(activeRoute) {
-                            case 'all':
-                                dispatch(getAllNotes());
-                                break;
-                            case 'star':
-                                dispatch(getStarNotes());
-                                break;
-                            case 'trash':
-                                dispatch(getTrashNotes());
-                                break;
-                            default: dispatch(getTagNotes(activeRoute));
-                        }
-                        dispatch({
-                            type: 'SET_PROCESS',
-                            data: false
-                        })
-                        if (getNewNoteAfter) {
-                            dispatch(getSpecificNote(id));
-                        }
-                    }).catch(err => {
-                        console.log(err);
+                    });
+                }).then(() => {
+                    switch(activeRoute) {
+                        case 'all':
+                            dispatch(getAllNotes());
+                            break;
+                        case 'star':
+                            dispatch(getStarNotes());
+                            break;
+                        case 'trash':
+                            dispatch(getTrashNotes());
+                            break;
+                        default: dispatch(getTagNotes(activeRoute));
+                    }
+                    dispatch({
+                        type: 'SET_PROCESS',
+                        data: false
                     })
+                    if (getNewNoteAfter) {
+                        dispatch(getSpecificNote(id));
+                    }
+                }).catch(err => {
+                    console.log(err);
                 })
             }
         });
