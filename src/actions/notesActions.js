@@ -313,10 +313,12 @@ export const removeTag = (tag, activeNote) => {
             data: true
         })
 
-        if (activeNote.tag === tag) {
-            dispatch({
-                type: 'CLEAR_ACTIVE_NOTES',
-            });
+        if (activeNote) {
+            if (activeNote.tag === tag) {
+                dispatch({
+                    type: 'CLEAR_ACTIVE_NOTES',
+                });
+            }
         }
 
         firebase.auth().onAuthStateChanged(user => {
