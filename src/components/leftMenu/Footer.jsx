@@ -4,6 +4,7 @@ import ReactTooltip from 'react-tooltip';
 import { connect } from 'react-redux';
 
 import { signOut } from '../../actions/authActions';
+import { showModal } from '../../actions/modalActions';
 
 const FooterContainer = styled.div`
     width: 100%;
@@ -79,10 +80,14 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = ({avatar, email, menuActive, dropdownActive, signOut}) => {
+const Footer = ({avatar, email, menuActive, dropdownActive, signOut, showModal}) => {
     
     const handleSignOut = () => {
         signOut();
+    }
+
+    const handleAvatarChange = () => {
+        showModal('avatar');
     }
 
     return (
@@ -93,7 +98,7 @@ const Footer = ({avatar, email, menuActive, dropdownActive, signOut}) => {
                 <FooterSaveStatus>Saved</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
-                <FooterButton data-tip="Change avatar">
+                <FooterButton onClick={handleAvatarChange} data-tip="Change avatar">
                     <span className="fa fa-user-circle"></span>
                 </FooterButton>
                 <FooterButton onClick={handleSignOut} data-tip="Sign out">
@@ -105,4 +110,4 @@ const Footer = ({avatar, email, menuActive, dropdownActive, signOut}) => {
     );
 };
 
-export default connect(null, { signOut })(Footer);
+export default connect(null, { signOut, showModal })(Footer);

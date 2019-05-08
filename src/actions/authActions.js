@@ -69,3 +69,36 @@ export const signOut = () => {
         })
     }
 }
+
+//----------------------------
+
+export const changeAvatar = file => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        dispatch({
+            type: 'SET_PROCESS',
+            data: true
+        })
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                firebase.storage().ref().child('avatars/'+user.uid).put(file).then(snapshot => {
+                    snapshot.ref.getDownloadURL().then(url => {
+                        firestore.collection('users').doc(user.uid).update({
+                            avatar: url
+                        }).then(() => {
+                            dispatch({
+                                type: 'SET_PROCESS',
+                                data: false
+                            })
+                        })
+                    })
+                }).catch(err => {
+                    console.log(err);
+                })
+            }
+        })
+    }
+}

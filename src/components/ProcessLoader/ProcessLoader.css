@@ -4,6 +4,7 @@
     position: absolute;
     bottom: 70px;
     right: 45px;
+    z-index: 99999;
     -webkit-transform: rotateZ(45deg);
             transform: rotateZ(45deg);
   }

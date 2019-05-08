@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import ModalTag from './ModalTag';
+import ModalAvatar from './ModalAvatar';
 
 const ModalContainer = styled.div`
     width: 100%;
@@ -26,7 +27,7 @@ const Modal = ({type}) => {
                 type === 'tag' ? (
                     <ModalTag />
                 ) : (
-                    ''
+                    <ModalAvatar />
                 )
             }
         </ModalContainer>
