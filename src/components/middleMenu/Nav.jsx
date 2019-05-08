@@ -76,6 +76,8 @@ const NavInput = styled.input`
     font-size: 18px;
     color: #ffffff;
     position: absolute;
+    left: 0;
+    top: 0;
 `
 
 const NavInputSearch = styled(NavInput)`

@@ -328,7 +328,7 @@ export const removeTag = (tag, activeNote) => {
                 }).then(() => {
                     firestore.collection('users').doc(user.uid).collection('notes').where("tag", "==", tag).get().then(snapshot => {
                         let notes = snapshot.docs.map(doc => doc.data());
-                        const deletingNotes = notes.map(async (item) => {
+                        const deletingNotes = notes.map(item => {
                             return firestore.collection('users').doc(user.uid).collection('notes').doc(item.id).delete();
                         });
                         
