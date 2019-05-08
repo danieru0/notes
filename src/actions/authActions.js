@@ -36,7 +36,8 @@ export const signUp = (email, password) => {
         firebase.auth().createUserWithEmailAndPassword(email, password).then(newUser => {
             firestore.collection('users').doc(newUser.user.uid).set({
                 email: email,
-                avatar: 'https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote'
+                avatar: 'https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote',
+                tags: {}
             }).then(() => {
                 dispatch({
                     type: 'AUTH_SUCCESS'
