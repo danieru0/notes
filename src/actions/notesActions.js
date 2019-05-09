@@ -147,6 +147,9 @@ export const createNewNote = (tag, color, name, activeRoute) => {
 
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
+                let today = new Date();
+                let month = today.toLocaleDateString('en-US', { month: 'long' }).slice(0,3);
+                let day = today.toLocaleDateString('en-US', { day: 'numeric' });
                 let newNote = firestore.collection('users').doc(user.uid).collection('notes').doc();
                 newNote.set({
                     tag: tag,
@@ -155,7 +158,8 @@ export const createNewNote = (tag, color, name, activeRoute) => {
                     star: false,
                     value: '',
                     id: newNote.id,
-                    trash: false
+                    trash: false,
+                    date: `${month}. ${day}`
                 }).then(() => {
                     switch(activeRoute) {
                         case 'all':

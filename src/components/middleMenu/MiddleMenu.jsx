@@ -184,7 +184,7 @@ class MiddleMenu extends Component {
                                 let note = this.state.searchedNotes[item];
                                 return (
                                     <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
-                                        <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                        <Note noteId={note.id} clickedNoteId={this.state.clickedNoteId} title={note.name} description={note.value} color={note.color} date={note.date} />
                                     </MiddleMenuItem>
                                 )
                             })
@@ -194,7 +194,7 @@ class MiddleMenu extends Component {
                                     let note = notes[item];
                                     return (
                                         <MiddleMenuItem onClick={() => this.handleNoteClick(note.id)} key={item}>
-                                            <Note activeNoteId={activeNote ? activeNote.id : null} noteId={note.id} title={note.name} description={note.value} color={note.color} date="Aug. 24" />
+                                            <Note activeNoteId={activeNote ? activeNote.id : null} noteId={note.id} title={note.name} description={note.value} color={note.color} date={note.date} />
                                         </MiddleMenuItem>
                                     )
                                 })
