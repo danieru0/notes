@@ -44,6 +44,10 @@ const EditorTitle = styled.p`
     font-size: 26px;
     letter-spacing: 1px;
     cursor: default;
+
+    @media (max-width: 860px) {
+        font-size: 20px;
+    }
 `
 
 const EditorButtonsList = styled.ul`
@@ -55,6 +59,10 @@ const EditorButtonsList = styled.ul`
 
 const EditorButtonsItem = styled.li`
     margin-left: 10px;
+
+    @media (max-width: 860px) {
+        margin: 0;
+    }
 `
 
 const EditorButton = styled.button`
