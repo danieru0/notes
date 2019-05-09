@@ -208,7 +208,7 @@ const LeftMenu = ({profile, activeRoute, activeNote, updateRoute, removeTag}) =>
                     <LeftMenuItemText>Trash</LeftMenuItemText>
                 </LeftMenuItem>
             </LeftMenuList>
-            <Footer avatar={profile.avatar} email={profile.email} menuActive={isMenuActive} dropdownActive={isDropdownShown} />
+            <Footer nick={profile.nick} avatar={profile.avatar} email={profile.email} menuActive={isMenuActive} dropdownActive={isDropdownShown} />
         </LeftMenuContainer>
     );
 };

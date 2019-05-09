@@ -88,8 +88,12 @@ const ModalAvatar = ({profile, process, changeAvatar, showModal}) => {
     const [avatarFileURL, setAvatarFileURL] = useState(null);
 
     const handleChangeAvatar = e => {
-        e.preventDefault();
-        changeAvatar(avatarFile);
+        if (avatarFile) {
+            e.preventDefault();
+            changeAvatar(avatarFile);
+        } else {
+            e.preventDefault();
+        }
     }
 
     const handleFileChange = e => {

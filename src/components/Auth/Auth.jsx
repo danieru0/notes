@@ -33,7 +33,7 @@ const AuthContainer = styled.div`
 
 const AuthForm = styled.form`
     width: 400px;
-    height: 400px;
+    height: ${({registerActive}) => ( registerActive ? '500px' : '400px' )};
     background: #21242A;
     display: flex;
     justify-content: center;
@@ -52,6 +52,10 @@ const AuthForm = styled.form`
         opacity: ${({authActive}) => ( authActive ? '1' : '0' )};
         visibility: ${({authActive}) => ( authActive ? 'visible' : 'hidden' )};
         transition: opacity .2s, visibility .2s;
+    }
+
+    @media (max-height: 500px) {
+        height: 90%;
     }
 `
 
@@ -118,8 +122,9 @@ const StyledLoader= styled(Loader)`
 
 const Auth = ({authError, authRun, signIn, signUp}) => {
     const [isRegisterActive, setLoginState] = useState(false);
-    const [email, setEmailState] = useState();
-    const [password, setPasswordState] = useState();
+    const [email, setEmailState] = useState(null);
+    const [password, setPasswordState] = useState(null);
+    const [nick, setNickState] = useState(null)
 
     const toggleAuth = () => {
         setLoginState(!isRegisterActive);
@@ -133,10 +138,16 @@ const Auth = ({authError, authRun, signIn, signUp}) => {
         setPasswordState(e.target.value);
     }
 
+    const handleNickInput = e => {
+        setNickState(e.target.value);
+    }
+
     const register = e => {
-        if (email && password) {
+        if (email && password && nick) {
             e.preventDefault();
-            signUp(email, password);
+            signUp(email, password, nick);
+        } else {
+            e.preventDefault();
         }
     }
 
@@ -151,9 +162,16 @@ const Auth = ({authError, authRun, signIn, signUp}) => {
         <>
             <AuthBackground />
             <AuthContainer>
-                <AuthForm authActive={authRun}>
+                <AuthForm registerActive={isRegisterActive} authActive={authRun}>
                     <StyledLoader authActive={authRun} />
                     <AuthErrorMessage>{authError}</AuthErrorMessage>
+                    {
+                        isRegisterActive ? (
+                            <AuthInput onChange={handleNickInput} placeholder="Nick" required />
+                        ) : (
+                            ''
+                        )
+                    }
                     <AuthInput onChange={handleEmailInput} placeholder="Email" required/>
                     <AuthInput onChange={handlePasswordInput} placeholder="Password" type="password" required/>
                     <AuthSubmitButton onClick={isRegisterActive ? register : login}>

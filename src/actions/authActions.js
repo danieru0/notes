@@ -28,22 +28,48 @@ export const signIn = (email, password) => {
     }
 }
 
-export const signUp = (email, password) => {
+export const signUp = (email, password, nick) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
+
+        dispatch({
+            type: 'AUTH_RUN',
+            status: true
+        });
+
+        if (nick.length > 11) {
+            dispatch({
+                type: 'AUTH_RUN',
+                status: false
+            });
+            dispatch({
+                type: 'AUTH_FAILED',
+                err: {message: 'Maximum nick length is 11 characters!'}
+            })
+            return false;
+        }
 
         firebase.auth().createUserWithEmailAndPassword(email, password).then(newUser => {
             firestore.collection('users').doc(newUser.user.uid).set({
                 email: email,
                 avatar: 'https://www.kinnarps.pl/contentassets/e61c223f7f8548c1968ad510a63ae4a4/13_portraitplaceholder.jpg?preset=?preset=portrait-quote',
-                tags: {}
+                tags: {},
+                nick: nick
             }).then(() => {
+                dispatch({
+                    type: 'AUTH_RUN',
+                    status: false
+                });
                 dispatch({
                     type: 'AUTH_SUCCESS'
                 })
             });
         }).catch(err => {
+            dispatch({
+                type: 'AUTH_RUN',
+                status: false
+            });
             dispatch({
                 type: 'AUTH_FAILED',
                 err

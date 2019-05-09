@@ -81,7 +81,7 @@ const FooterButton = styled.button`
     outline: none;
 `
 
-const Footer = ({avatar, email, menuActive, dropdownActive, process, signOut, showModal}) => {
+const Footer = ({avatar, nick, menuActive, dropdownActive, process, signOut, showModal}) => {
     
     const handleSignOut = () => {
         signOut();
@@ -95,7 +95,7 @@ const Footer = ({avatar, email, menuActive, dropdownActive, process, signOut, sh
         <FooterContainer menuActive={menuActive} dropdownActive={dropdownActive}>
             <FooterAvatar src={avatar ? avatar : 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png'} />
             <FooterWrapper>
-                <FooterNick >{email ? email.split('@')[0] : ''}</FooterNick>
+                <FooterNick >{nick}</FooterNick>
                 <FooterSaveStatus>{process ? 'Saving...' : 'Saved'}</FooterSaveStatus>
             </FooterWrapper>
             <FooterWrapperButtons>
