@@ -7,6 +7,7 @@ import { updateNote, clearActiveNote, getSpecificNote, removeNote } from '../../
 
 import Icon from '../Icon/Icon';
 import Loader from '../Loader/Loader';
+import ProcessLoader from '../ProcessLoader/ProcessLoader';
 
 const EditorContainer = styled.div`
     width: 67%;
@@ -131,6 +132,12 @@ const StyledLoader = styled(Loader)`
     margin: auto;
 `
 
+const StyledProcessLoader = styled(ProcessLoader)`
+  opacity: ${({process}) => ( process ? '1' : '0' )};
+  visibility: ${({process}) => ( process ? 'visible' : 'hidden' )}; 
+  transition: opacity .3s, visibility .3s;
+`
+
 class Editor extends Component {
     constructor() {
         super();
@@ -207,8 +214,39 @@ class Editor extends Component {
         }
     }
 
+    isFullScreen() {
+        return document.fullscreenElement ||
+                document.mozfullScreenElement ||
+                document.webkitFullscreenElement ||
+                document.msFullscreenElement;
+    }
+
+    toggleFullscreen = () => {
+        if (!this.isFullScreen()) {
+            if (this.editor.requestFullscreen) {
+                this.editor.requestFullscreen();
+            } else if (this.editor.webkitRequestFullscreen) {
+                this.editor.webkitRequestFullscreen();
+            } else if (this.editor.mozRequestFullscreen) {
+                this.editor.mozRequestFullscreen();
+            } else if (this.editor.msRequestFullscreen) {
+                this.editor.msRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscren) {
+                document.webkitExitFullscren();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+        }
+    }
+
     render() {
-        const { activeNote, noteGetting } = this.props;
+        const { activeNote, noteGetting, process } = this.props;
         const { isEditorOff, editorValue, editorStar, texting } = this.state;
 
         return (
@@ -227,6 +265,11 @@ class Editor extends Component {
                                 <EditorButtonsItem>
                                     <EditorButton data-tip={editorStar ? 'Unstar' : 'Star it!'} onClick={this.toggleStar}>
                                         <StyledIcon color={editorStar ? '#F1C200' : "#545962"} type="star" />
+                                    </EditorButton>
+                                </EditorButtonsItem>
+                                <EditorButtonsItem>
+                                    <EditorButton data-tip="Fullscreen" onClick={this.toggleFullscreen}>
+                                        <StyledIcon color="#545962" type="resize" />
                                     </EditorButton>
                                 </EditorButtonsItem>
                                 <EditorButtonsItem>
@@ -271,6 +314,7 @@ class Editor extends Component {
                         )
                     )
                 }
+            <StyledProcessLoader process={process}/>
             </EditorContainer>
         )
     }

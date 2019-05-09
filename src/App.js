@@ -1,21 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
 
 import LeftMenu from './components/leftMenu/LeftMenu';
 import MiddleMenu from './components/middleMenu/MiddleMenu';
 import Editor from './components/editor/Editor';
 import Auth from './components/Auth/Auth';
-import ProcessLoader from './components/ProcessLoader/ProcessLoader';
 import Modal from './components/Modal/Modal';
 
 import './App.css';
-
-const StyledProcessLoader = styled(ProcessLoader)`
-  opacity: ${({process}) => ( process ? '1' : '0' )};
-  visibility: ${({process}) => ( process ? 'visible' : 'hidden' )}; 
-  transition: opacity .3s, visibility .3s;
-`
 
 function App({auth, process, activeModal}) {
   
@@ -27,7 +19,6 @@ function App({auth, process, activeModal}) {
             <LeftMenu />
             <MiddleMenu />
             <Editor />
-            <StyledProcessLoader process={process}/>
             <Modal type={activeModal} />
           </>
         ) : (
