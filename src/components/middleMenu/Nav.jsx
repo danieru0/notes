@@ -103,9 +103,14 @@ const NavTagAdd = styled.button`
     cursor: pointer;
     outline: none;
 
+    @media (max-width: 1110px) {
+        right: 30px;
+        left: auto;
+    }
+
     @media (max-width: 650px) {
         right: auto;
-        left: 0;
+        left: 30px;
     }
 `
 
@@ -125,11 +130,15 @@ const Nav = ({activeRoute, number, tag, createNewNote, showModal, handleSearch})
     const createNote = e => {
         if (e.key === 'Enter') {
             if (newNoteName) {
-                e.target.value = '';
-                if (tag) {
-                    createNewNote(activeRoute, tag.color, newNoteName, activeRoute);   
+                if (newNoteName.length > 15) {
+                    alert('Maxium note name is 15 characters!');
                 } else {
-                    createNewNote('freedom', '#000000', newNoteName, activeRoute);
+                    e.target.value = '';
+                    if (tag) {
+                        createNewNote(activeRoute, tag.color, newNoteName, activeRoute);   
+                    } else {
+                        createNewNote(null, '#000000', newNoteName, activeRoute);
+                    }
                 }
             }
         }

@@ -50,6 +50,10 @@ const NoteDate = styled.p`
     font-size: 13px;
     right: 15px;
     top: 5px;
+    
+    @media (max-width: 1438px) {
+        display: none;
+    }
 `
 
 const Note = ({title, description, date, color, activeNoteId, noteId}) => {
@@ -59,7 +63,7 @@ const Note = ({title, description, date, color, activeNoteId, noteId}) => {
     }
 
     return (
-        <NoteContainer activeNoteId={activeNoteId} noteId={noteId}>
+        <NoteContainer title={title} activeNoteId={activeNoteId} noteId={noteId}>
             <StyledCircle color={color} size="small" />
             <NoteWrapper>
                 <NoteTitle>{title}</NoteTitle>

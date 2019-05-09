@@ -250,7 +250,13 @@ class Editor extends Component {
                             </EditorButtonsList>
                             </EditorNav>
                             <EditorTextArea onChange={this.handleEditorText} editorOff={isEditorOff} spellCheck="false" readOnly={isEditorOff} value={editorValue}></EditorTextArea>
-                            <EditorTagName>{activeNote.tag}</EditorTagName>
+                            {
+                                activeNote.tag ? (
+                                    <EditorTagName>{activeNote.tag}</EditorTagName>
+                                ) : (
+                                    ''
+                                )
+                            }
                             <EditorWordsLength>{`${editorValue.length} words`}</EditorWordsLength>
                             <ReactTooltip type="dark" effect="solid"/>
                         </>
