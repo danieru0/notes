@@ -33,6 +33,7 @@ const FooterAvatar = styled.img`
     height: 64px;
     border-radius: 50%;
     border: 1px solid #ffffff;
+    user-select: none;
 
     @media (max-width: 1490px) {
         display: none;
@@ -53,6 +54,7 @@ const FooterNick = styled.p`
     margin: 0;
     max-width: 68px;
     height: 22px;
+    user-select: none;
 `
 
 const FooterSaveStatus = styled.p`
@@ -60,6 +62,7 @@ const FooterSaveStatus = styled.p`
     margin: 0;
     letter-spacing: 1px;
     width: 76px;
+    user-select: none;
 `
 
 const FooterWrapperButtons = styled.div`

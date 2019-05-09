@@ -91,6 +91,7 @@ const EditorWordsLength = styled.p`
     right: 40px;
     font-size: 14px;
     cursor: default;
+    user-select: none;
 `
 
 const EditorTagName = styled.p`
@@ -105,6 +106,7 @@ const EditorTagName = styled.p`
     border: 1px solid #8D8E91;
     padding: 2px 15px 4.5px 15px;
     border-radius: 20px;
+    user-select: none;
 `
 
 const EditorNoNote = styled.p`
@@ -117,6 +119,7 @@ const EditorNoNote = styled.p`
     justify-content: center;
     align-items: center;
     font-family: 'PT Serif', serif;
+    user-select: none;
 `
 
 const StyledLoader = styled(Loader)`

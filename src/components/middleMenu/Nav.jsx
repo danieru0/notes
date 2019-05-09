@@ -36,6 +36,7 @@ const NavTitle = styled.p`
     color: #ffffff;
     font-size: 20px;
     cursor: default;
+    user-select: none;
 `
 
 const NavNumber = styled.p`
@@ -45,6 +46,7 @@ const NavNumber = styled.p`
     margin-left: 10px;
     cursor: default;
     min-width: 10px;
+    user-select: none;
 `
 
 const NavAddButton = styled.button`
@@ -78,6 +80,7 @@ const NavInput = styled.input`
     position: absolute;
     left: 0;
     top: 0;
+    user-select: none;
 `
 
 const NavInputSearch = styled(NavInput)`

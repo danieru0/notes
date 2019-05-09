@@ -32,6 +32,7 @@ const NoteTitle = styled.p`
     margin: 0;
     color: #ffffff;
     font-size: 20px;
+    user-select: none;
 `
 
 const NoteDescription = styled.p`
@@ -41,6 +42,7 @@ const NoteDescription = styled.p`
     margin-top: 15px;
     height: 72px;
     word-break: break-all;
+    user-select: none;
 `
 
 const NoteDate = styled.p`
@@ -50,6 +52,7 @@ const NoteDate = styled.p`
     font-size: 13px;
     right: 15px;
     top: 5px;
+    user-select: none;
     
     @media (max-width: 1438px) {
         display: none;

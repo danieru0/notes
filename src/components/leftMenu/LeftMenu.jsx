@@ -59,6 +59,7 @@ const LeftMenuList = styled.ul`
     border-bottom: 2px solid #17181D;
     overflow: hidden;
     position: relative;
+    user-select: none;
 
     background: ${({type, activeRoute}) => ( type === activeRoute && type ? '#32353B;' : 'unset' )};
 
@@ -101,6 +102,7 @@ const LeftMenuItemDropdownItem = styled.li`
     padding-left: 44px;
     cursor: pointer;
     height: 63px;
+    user-select: none;
 
     @media (max-width: 1285px) {
         padding-left: 5px;

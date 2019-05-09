@@ -22,6 +22,7 @@ export const LogoIcon = styled.div`
     justify-content: center;
     align-items: center;
     cursor: default;
+    user-select: none;
 `
 
 const Logo = () => {
