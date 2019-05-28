@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const CircleComponent = styled.div`
@@ -13,5 +14,10 @@ const Circle = ({color, size, className, onClick}) => {
         <CircleComponent onClick={onClick} color={color} size={size} className={className} />
     );
 };
+
+Circle.propTypes = {
+	size: PropTypes.string.isRequired,
+	color: PropTypes.string.isRequired
+}
 
 export default Circle;

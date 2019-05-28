@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const IconContainer = styled.div`
@@ -28,5 +29,10 @@ const Icon = ({color, type, className}) => {
         </IconContainer>
     );
 };
+
+Icon.propTypes = {
+	color: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired
+}
 
 export default Icon;
