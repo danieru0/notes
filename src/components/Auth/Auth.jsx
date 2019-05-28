@@ -11,7 +11,7 @@ const AuthBackground = styled.div`
     right: 0;
     z-index: 1;
     display: block;
-    background: url('https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-88878.jpg');
+    background: url('images/auth.jpg');
     background-size: cover;
     transform: scale(1.1);
     width: 100%;
