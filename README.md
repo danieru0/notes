@@ -15,4 +15,4 @@ User has the option to change his avatar.
 
 ## Live
 
-Link: https://elosiktv.github.io/notes/
+Link: https://danieru0.github.io/notes/
